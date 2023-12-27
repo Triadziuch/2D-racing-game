@@ -7,24 +7,29 @@
 class NPCar
 {
 private:
-	sf::Sprite sprite;
-	float speed;
-	int direction;
-	float scale;
+	// Private variables
+	sf::Sprite	 sprite;
+	float		 speed;
+	int			 direction;
+	float		 scale;
 
 	// Initialization functions 
-	void initVariables(sf::Texture& texture, float speed, sf::Vector2f spawn_pos, int direction);
+	void initVariables(sf::Texture& _texture, float _speed, sf::Vector2f _spawn_pos, int _direction);
+
+	// Private functions
+	void move(float dt);
 
 public:
 	// Constructors / Destructors
-	NPCar(sf::Texture& texture, float speed, sf::Vector2f spawn_pos, int direction);
+	NPCar(sf::Texture& _texture, float _speed, sf::Vector2f _spawn_pos, int _direction);
 	virtual ~NPCar();
 
 	// Update functions
 	void update(float dt);
 
+	// Accessors / Mutators
 	sf::FloatRect getFloatRect() { return this->sprite.getGlobalBounds(); }
 
-	// Rendering background
+	// Rendering functions
 	void render(sf::RenderTarget& target);
 };

@@ -1,5 +1,6 @@
 #include "Pickup.h"
 
+// Initialization functions 
 void Pickup::initVariables(sf::Vector2f position, sf::Texture& texture, std::string type)
 {
 	this->scale = 4.f;
@@ -9,6 +10,13 @@ void Pickup::initVariables(sf::Vector2f position, sf::Texture& texture, std::str
 	this->sprite.setPosition(position);
 }
 
+// Private functions
+void Pickup::move(float value)
+{
+	this->sprite.move({ 0.f, value });
+}
+
+// Constructors / Destructors
 Pickup::Pickup(sf::Vector2f position, sf::Texture& texture, std::string type)
 {
 	this->initVariables(position, texture, type);
@@ -18,15 +26,13 @@ Pickup::~Pickup()
 {
 }
 
-void Pickup::update(float dt)
+// Update functions
+void Pickup::update(float dt, float movement_offset)
 {
+	this->move(dt * movement_offset);
 }
 
-void Pickup::move(float value)
-{
-	this->sprite.move({ 0.f, value });
-}
-
+// Rendering functions
 void Pickup::render(sf::RenderTarget& target)
 {
 	target.draw(this->sprite);

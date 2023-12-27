@@ -7,6 +7,7 @@
 class Car
 {
 private:
+	// Private variables
 	RotationProcessing RP;
 	sf::Texture texture;
 	sf::Sprite sprite;
@@ -24,7 +25,10 @@ public:
 
 	// Update functions
 	void update(float dt);
-	
+	sf::Vector2f updateRotation();
+	void updateMovement(float dt);
+
+	// Public functions
 	void move(sf::Vector2f _offset);
 	void move(sf::Vector2f _offset, float _dt);
 

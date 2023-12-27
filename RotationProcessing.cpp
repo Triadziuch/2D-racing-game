@@ -1,5 +1,6 @@
 #include "RotationProcessing.h"
 
+// Constructors / Destructors
 RotationProcessing::RotationProcessing()
 {
 	char* portC = new char[this->port.length() + 1];
@@ -18,11 +19,7 @@ RotationProcessing::~RotationProcessing()
 	delete STM32;
 }
 
-bool RotationProcessing::getIsConnected()
-{
-	return this->STM32->isConnected();
-}
-
+// Update functions
 bool RotationProcessing::update()
 {
 	bool ret = false;

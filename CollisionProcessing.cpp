@@ -1,5 +1,14 @@
 #include "CollisionProcessing.h"
 
+// Initialization functions
+void CollisionProcessing::initVariables(Car* _car, Background* _background, sf::FloatRect _roadBorders)
+{
+	this->car = _car;
+	this->background = _background;
+	this->roadBorders = _roadBorders;
+}
+
+// Private functions
 void CollisionProcessing::player_grass(float dt)
 {
 	if (!this->background->backgroundContainsV2f(this->car->getPosition())) {
@@ -19,18 +28,17 @@ void CollisionProcessing::player_borders()
 		this->car->move({ (this->roadBorders.left + this->roadBorders.width) - (carFR.left + carFR.width), 0.f });
 }
 
-CollisionProcessing::CollisionProcessing(Car* car, Background* background, sf::FloatRect roadBorders)
+// Constructors / Destructors
+CollisionProcessing::CollisionProcessing(Car* _car, Background* _background, sf::FloatRect _roadBorders)
 {
-	this->car = car;
-	this->background = background;
-	this->roadBorders = roadBorders;
+	this->initVariables(_car, _background, _roadBorders);
 }
 
 CollisionProcessing::~CollisionProcessing()
 {
-
 }
 
+// Update functions
 void CollisionProcessing::update(float dt)
 {
 	this->player_grass(dt);

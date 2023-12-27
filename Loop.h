@@ -30,6 +30,7 @@ private:
 	// Clock variables
 	sf::Clock dt_clock;
 
+	// Object variables
 	Background* background;
 	Car *car;
 	CollisionProcessing *collisionProcessing;
@@ -57,6 +58,6 @@ public:
 	void update();
 	void updatePollEvents();
 
-	// Rendering the game
+	// Rendering functions
 	void render();
 };

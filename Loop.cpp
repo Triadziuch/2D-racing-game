@@ -77,7 +77,7 @@ void Loop::updatePollEvents()
 	}
 }
 
-// Render functions
+// Rendering functions
 void Loop::render() {
 
 	this->window->clear(sf::Color::Black);

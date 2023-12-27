@@ -1,5 +1,6 @@
 #include "Car.h"
 
+// Initialization functions 
 void Car::initVariables(sf::Vector2u windowSize)
 {
 	this->speed = 30.f;
@@ -12,6 +13,7 @@ void Car::initVariables(sf::Vector2u windowSize)
 	this->speed_factor = 1.f;
 }
 
+// Constructors / Destructors
 Car::Car(sf::Vector2u windowSize)
 {
 	this->initVariables(windowSize);
@@ -21,37 +23,44 @@ Car::~Car()
 {
 }
 
+// Update functions
 void Car::update(float dt)
 {
 	this->RP.update();
-
-	float rotation_x = static_cast<float>(this->RP.getNewLR()), rotation_y = static_cast<float>(this->RP.getNewFB());
+	this->updateMovement(dt);
 	
-	float kierunek = signbit(rotation_x) ? -1.f : 1.f;
-	if (abs(rotation_x) < 2.f) {
-		rotation_x = 0.f;
+}
+
+sf::Vector2f Car::updateRotation()
+{
+	sf::Vector2f rotation = { static_cast<float>(this->RP.getNewLR()), static_cast<float>(this->RP.getNewFB()) };
+
+	float kierunek = signbit(rotation.x) ? -1.f : 1.f;
+	if (abs(rotation.x) < 2.f) {
+		rotation.x = 0.f;
 		this->sprite.setRotation(0.f);
 	}
-	else if (abs(rotation_x) < 8.f) {
+	else if (abs(rotation.x) < 8.f) {
 		this->sprite.setRotation(8.f * kierunek);
 	}
-	else if (abs(rotation_x) < 16.f)
+	else if (abs(rotation.x) < 16.f)
 		this->sprite.setRotation(16.f * kierunek);
 	else
 		this->sprite.setRotation(24.f * kierunek);
-		
-	if (abs(rotation_y) < 1.f)
-		rotation_y = 0.f;
 
-	
-	this->sprite.move({ rotation_x * dt * this->speed * this->speed_factor, rotation_y * dt * this->speed * this->speed_factor });
+	if (abs(rotation.y) < 1.f)
+		rotation.y = 0.f;
+
+	return rotation;
 }
 
-void Car::render(sf::RenderTarget &target)
+void Car::updateMovement(float dt)
 {
-	target.draw(this->sprite);
+	sf::Vector2f rotation = this->updateRotation();
+	this->sprite.move({ rotation.x * dt * this->speed * this->speed_factor, rotation.y * dt * this->speed * this->speed_factor });
 }
 
+// Public functions
 void Car::move(sf::Vector2f _offset)
 {
 	this->sprite.move(_offset);
@@ -60,4 +69,10 @@ void Car::move(sf::Vector2f _offset)
 void Car::move(sf::Vector2f _offset, float _dt)
 {
 	this->sprite.move(_offset * _dt * this->speed * this->speed_factor);
+}
+
+// Rendering the game
+void Car::render(sf::RenderTarget& target)
+{
+	target.draw(this->sprite);
 }

@@ -7,30 +7,32 @@
 class Droga
 {
 private:
-	// Initialization functions 
-	float skala;
+	// Private variables
+	float scale;
 	sf::Vector2i rozmiar;
 	sf::Sprite** sprite_dekoracje;
 	sf::Sprite sprite_droga;
 
-	void initVariables(const sf::Vector2i _rozmiar, float _skala, sf::Vector2f start_dekoracje, sf::Texture* texture_dekoracje, int liczba_dekoracji, bool** rozmieszenie_dekoracji, sf::Texture& texture_droga);
+	// Initialization functions 
+	void initVariables(const sf::Vector2i _rozmiar, float _scale, sf::Vector2f _start_dekoracje, sf::Texture* _texture_dekoracje, int _liczba_dekoracji, bool** _rozmieszenie_dekoracji, sf::Texture& _texture_droga);
+
+	// Private functions
+	void move(float value);
 
 public:
 	// Constructors / Destructors
-	Droga(const sf::Vector2i _rozmiar, float _skala, sf::Vector2f start_dekoracje, sf::Texture* texture_dekoracje, int liczba_dekoracji, bool** rozmieszenie_dekoracji, sf::Texture& texture_droga);
+	Droga(const sf::Vector2i _rozmiar, float _scale, sf::Vector2f _start_dekoracje, sf::Texture* _texture_dekoracje, int _liczba_dekoracji, bool** _rozmieszenie_dekoracji, sf::Texture& _texture_droga);
 	virtual ~Droga();
 
 	// Update functions
-	void update(float dt);
+	void update(float dt, float movement_offset);
 
-	void move(float value);
-	bool getDrogaContains(const sf::Vector2f&obj);
+	// Accessors / Mutators
 	sf::FloatRect getBorders();
+	bool getDrogaContains(const sf::Vector2f&obj);
+	float getPosition() { return this->sprite_dekoracje[0][0].getPosition().y; }
 	float getTileWidth() { return this->sprite_dekoracje[0][0].getGlobalBounds().width; }
 
-	// Accessors
-	float getPosition();
-
-	// Rendering background
+	// Rendering functions
 	void render(sf::RenderTarget& target);
 };

@@ -1,7 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
 #include <string.h>
 #include <vector>
 #include "Droga.h"
@@ -10,6 +7,7 @@
 class Background
 {
 private:
+	// Private variables
 	sf::Vector2u windowSize;
 	float start_dekoracje;
 	float scale;
@@ -68,8 +66,12 @@ private:
 
 	// Initialization functions 
 	void initVariables(sf::Vector2u windowSize);
+
+	// Private road functions
 	float getNajwyzszaDroga();
 	void dodajDroge(float wysokosc);
+
+	// Private pickups functions
 	void spawnPickups();
 	bool collidePickups(sf::FloatRect obj);
 	void deletePickups();
@@ -79,17 +81,19 @@ public:
 	Background(sf::Vector2u windowSize);
 	virtual ~Background();
 
-	void move(float value);
+	// Public functions
 	bool backgroundContainsV2f(const sf::Vector2f&obj);
+
+	// Accessors / Mutators
 	sf::FloatRect getBorders();
 	float getCarSpawnRight();
 	float getCarSpawnLeft();
 
 	// Update functions
 	void update(float dt, float movement_offset);
-	void updateDroga();
-	void updatePickups();
+	void updateRoad(float dt, float movement_offset);
+	void updatePickups(float dt, float movement_offset);
 
-	// Rendering background
+	// Rendering functions
 	void render(sf::RenderTarget& target);
 };

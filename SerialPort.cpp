@@ -1,12 +1,12 @@
 #include "SerialPort.h"
 
+// Constructors / Destructors
 SerialPort::SerialPort(char* portName)
 {
 	errors = 0;
 	status = { 0 };
 	connected = false;
 
-	// Create & open the COM I/O device. This returns a handle to the COM device
 	handleToCOM = CreateFileA(static_cast<LPCSTR>(portName), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	DWORD errMsg = GetLastError();
@@ -38,12 +38,12 @@ SerialPort::SerialPort(char* portName)
 	}
 }
 
-SerialPort::SerialPort(SerialPort* _obj)
+SerialPort::SerialPort(const SerialPort& _obj)
 {
-	this->handleToCOM = _obj->handleToCOM;
-	this->connected = _obj->connected;
-	this->status = _obj->status;
-	this->errors = _obj->errors;
+	this->handleToCOM	 = _obj.handleToCOM;
+	this->connected		 = _obj.connected;
+	this->status		 = _obj.status;
+	this->errors		 = _obj.errors;
 }
 
 SerialPort::~SerialPort()
@@ -54,6 +54,7 @@ SerialPort::~SerialPort()
 	}
 }
 
+// Public functions
 int SerialPort::ReadSerialPort(char* buffer, unsigned int buf_size)
 {
 	DWORD bytesRead;
@@ -68,8 +69,6 @@ int SerialPort::ReadSerialPort(char* buffer, unsigned int buf_size)
 			toRead = status.cbInQue;
 	}
 
-	
-
 	if (toRead != 0 && ReadFile(handleToCOM, buffer, toRead, &bytesRead, NULL))
 		return bytesRead;
 	return 0;
@@ -77,16 +76,5 @@ int SerialPort::ReadSerialPort(char* buffer, unsigned int buf_size)
 
 bool SerialPort::WriteSerialPort(char* buffer, unsigned int buf_size)
 {
-
 	return false;
-}
-
-int SerialPort::getBufferSize()
-{
-	return status.cbInQue;
-}
-
-bool SerialPort::isConnected()
-{
-	return connected;
 }

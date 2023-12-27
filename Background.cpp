@@ -1,5 +1,6 @@
 #include "Background.h"
 
+// Initialization functions 
 void Background::initVariables(sf::Vector2u windowSize)
 {
 	this->windowSize = windowSize;
@@ -7,6 +8,7 @@ void Background::initVariables(sf::Vector2u windowSize)
 	this->scale = 4.f;
 	this->aktualna_lokacja = 0;
 
+	// Road variables initialization
 	this->rozmieszenie_dekoracji_droga = new bool* [rozmiar_droga.y];
 	for (int i = 0; i < rozmiar_droga.y; ++i)
 		this->rozmieszenie_dekoracji_droga[i] = this->dekoracje_droga[i];
@@ -33,12 +35,22 @@ void Background::initVariables(sf::Vector2u windowSize)
 	for (int i = 0; i < liczba_typow_drog; ++i)
 		this->texture_droga_wsk[i] = this->texture_droga[i];
 
+	// Pickups variables initialization
 	this->texture_pickups = new sf::Texture[this->liczba_pickups];
-	this->texture_pickups[0].loadFromFile("Textures/Pickups/Dziura.png");
-	this->texture_pickups[1].loadFromFile("Textures/Pickups/Lod.png");
-	this->texture_pickups[2].loadFromFile("Textures/Pickups/Pekniecie.png");
-	this->texture_pickups[3].loadFromFile("Textures/Pickups/Przyspieszenie.png");
-	this->texture_pickups[4].loadFromFile("Textures/Pickups/Smar.png");
+	if (!this->texture_pickups[0].loadFromFile("Textures/Pickups/Dziura.png"))
+		printf("ERROR: Nie udalo sie wczytac pliku Textures/Pickups/Dziura.png");
+
+	if (!this->texture_pickups[1].loadFromFile("Textures/Pickups/Lod.png"))
+		printf("ERROR: Nie udalo sie wczytac pliku Textures/Pickups/Lod.png");
+
+	if (!this->texture_pickups[2].loadFromFile("Textures/Pickups/Pekniecie.png"))
+		printf("ERROR: Nie udalo sie wczytac pliku Textures/Pickups/Pekniecie.png");
+
+	if (!this->texture_pickups[3].loadFromFile("Textures/Pickups/Przyspieszenie.png"))
+		printf("ERROR: Nie udalo sie wczytac pliku Textures/Pickups/Przyspieszenie.png");
+
+	if (!this->texture_pickups[4].loadFromFile("Textures/Pickups/Smar.png"))
+		printf("ERROR: Nie udalo sie wczytac pliku Textures/Pickups/Smar.png");
 
 	this->szansa_dziura = 5;
 	this->szansa_lod = 80;
@@ -53,13 +65,13 @@ void Background::initVariables(sf::Vector2u windowSize)
 	this->max_smar = 1;
 }
 
+// Private road functions
 float Background::getNajwyzszaDroga()
 {
 	if (this->vdroga.size() == 0)
 		return static_cast<float>(this->windowSize.y);
 	else
 		return this->vdroga.back()->getPosition();
-
 }
 
 void Background::dodajDroge(float wysokosc)
@@ -70,6 +82,7 @@ void Background::dodajDroge(float wysokosc)
 		this->vdroga.push_back(new Droga(this->rozmiar_droga, this->scale, { this->start_dekoracje, wysokosc }, *texture_dekoracje_wsk, this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_droga, this->texture_droga_wsk[this->aktualna_lokacja][0]));
 }
 
+// Private pickups functions
 void Background::spawnPickups()
 {
 	int wybor = rand() % 17500;
@@ -107,7 +120,7 @@ void Background::spawnPickups()
 		int car_spawn_left_pos = static_cast<int>(this->getCarSpawnLeft());
 		int car_spawn_right_pos = static_cast<int>(this->getCarSpawnRight());
 
-		this->vpickups.push_back(new Pickup({ static_cast<float>(car_spawn_right_pos + rand() %(car_spawn_left_pos + 32 - car_spawn_right_pos)) - 48.f, -100.f }, this->texture_pickups[texture_id], type));
+		this->vpickups.push_back(new Pickup({ static_cast<float>(car_spawn_left_pos + rand() %(car_spawn_right_pos + 32 - car_spawn_left_pos)) - 48.f, -100.f }, this->texture_pickups[texture_id], type));
 		/*while (this->collidePickups(this->vpickups.back()->getFloatRect())) {
 			this->vpickups.pop_back();
 			this->vpickups.push_back(new Pickup({ static_cast<float>(car_spawn_right_pos + rand() % (car_spawn_left_pos + 32 - car_spawn_right_pos)) - 48.f, -100.f }, this->texture_pickups[texture_id], type));
@@ -140,6 +153,7 @@ void Background::deletePickups()
 		}
 }
 
+// Constructors / Destructors
 Background::Background(sf::Vector2u windowSize)
 {
 	srand(static_cast<unsigned>(time(NULL)));
@@ -152,18 +166,13 @@ Background::~Background()
 	delete[] this->rozmieszenie_dekoracji_tankowanie;
 	delete[] this->texture_dekoracje_wsk;
 	delete[] this->texture_droga_wsk;
+
+	for (const auto& droga : this->vdroga)
+		droga->~Droga();
 	this->vdroga.clear();
 }
 
-void Background::move(float value)
-{
-	for (const auto& droga : this->vdroga)
-		droga->move(value * this->mnoznik_predkosci);
-
-	for (const auto& pickup : this->vpickups)
-		pickup->move(value * this->mnoznik_predkosci);
-}
-
+// Public functions
 bool Background::backgroundContainsV2f(const sf::Vector2f& obj)
 {
 	for (const auto& droga : this->vdroga)
@@ -172,6 +181,7 @@ bool Background::backgroundContainsV2f(const sf::Vector2f& obj)
 	return true;
 }
 
+// Accessors / Mutators
 sf::FloatRect Background::getBorders()
 {
 	if (!this->vdroga.empty()) {
@@ -181,43 +191,49 @@ sf::FloatRect Background::getBorders()
 	return sf::FloatRect(0.f, 0.f, static_cast<float>(this->windowSize.x), static_cast<float>(this->windowSize.y));
 }
 
-float Background::getCarSpawnRight()
+float Background::getCarSpawnLeft()
 {
 	if (!this->vdroga.empty())
-		return this->vdroga[0]->getTileWidth() * 5.f + this->start_dekoracje;
+		return this->start_dekoracje + this->vdroga[0]->getTileWidth() * 5.f;
 	return 0.f;
 }
 
-float Background::getCarSpawnLeft()
+float Background::getCarSpawnRight()
 {
 	if (!this->vdroga.empty())
 		return static_cast<float>(this->windowSize.x) - (this->vdroga[0]->getTileWidth() * 5.f + this->start_dekoracje);
 	return 0.f;
 }
 
+// Update functions
 void Background::update(float dt, float movement_offset)
 {
-	this->updateDroga();
-	this->updatePickups();
-
-	this->move(movement_offset * dt);
-	
+	this->updateRoad(dt, movement_offset);
+	this->updatePickups(dt, movement_offset);
 }
 
-void Background::updateDroga()
+void Background::updateRoad(float dt, float movement_offset)
 {
+	for (const auto& droga : this->vdroga)
+		droga->update(dt, movement_offset * this->mnoznik_predkosci);
+
 	if (this->getNajwyzszaDroga() + 100.f > 0.f)
 		this->dodajDroge(this->getNajwyzszaDroga());
+
 	if (!this->vdroga.empty() && this->vdroga[0]->getPosition() > this->windowSize.y)
 		this->vdroga.erase(this->vdroga.begin());
 }
 
-void Background::updatePickups()
+void Background::updatePickups(float dt, float movement_offset)
 {
+	for (const auto& pickup : this->vpickups)
+		pickup->update(dt, movement_offset * this->mnoznik_predkosci);
+
 	this->spawnPickups();
 	this->deletePickups();
 }
 
+// Rendering functions
 void Background::render(sf::RenderTarget& target)
 {
 	for (const auto& droga : this->vdroga)
