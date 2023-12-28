@@ -3,11 +3,6 @@
 #include <SFML/System.hpp>
 #include <vector>
 #include <iostream>
-#include <sstream>
-#include <math.h>
-#include <Thor/Vectors.hpp>
-#include <tuple>
-#include <Thor/Resources.hpp>
 #include <map>
 #include <time.h>
 #include <string.h>
@@ -34,7 +29,6 @@ private:
 	Background* background;
 	Car *car;
 	CollisionProcessing *collisionProcessing;
-	NPCarContainer* NPCar;
 
 	float dt;
 	float background_moving_speed;

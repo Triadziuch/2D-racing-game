@@ -1,6 +1,7 @@
 #pragma once
 #include <string.h>
 #include <vector>
+#include "NPCarContainer.h"
 #include "Droga.h"
 #include "Pickup.h"
 
@@ -47,7 +48,7 @@ private:
 	static constexpr int liczba_lokacji = 1;
 	static constexpr int liczba_typow_dekoracji = 4;
 	static constexpr int liczba_typow_drog = 2;
-	const float mnoznik_predkosci = 1.f;
+	float mnoznik_predkosci = 1.f;
 
 	sf::Texture texture_dekoracje[liczba_lokacji][liczba_typow_dekoracji];
 	sf::Texture** texture_dekoracje_wsk;
@@ -63,6 +64,8 @@ private:
 	int max_dziura, max_lod, max_pekniecie, max_przyspieszenie, max_smar;
 	int liczba_dziura{}, liczba_lod{}, liczba_pekniecie{}, liczba_przyspieszenie{}, liczba_smar{};
 	std::vector <Pickup*> vpickups;
+
+	NPCarContainer* NPCar;
 
 	// Initialization functions 
 	void initVariables(sf::Vector2u windowSize);
@@ -84,15 +87,20 @@ public:
 	// Public functions
 	bool backgroundContainsV2f(const sf::Vector2f&obj);
 
-	// Accessors / Mutators
-	sf::FloatRect getBorders();
-	float getCarSpawnRight();
-	float getCarSpawnLeft();
-
 	// Update functions
 	void update(float dt, float movement_offset);
 	void updateRoad(float dt, float movement_offset);
 	void updatePickups(float dt, float movement_offset);
+	void updateNPCar(float dt);
+
+	// Accessors / Mutators
+	sf::FloatRect getBorders();
+	float getCarSpawnRight();
+	float getCarSpawnLeft();
+	std::vector <Pickup*>* getPickupsPtr();
+
+	void setSpeedFactor(float value);
+	void addSpeedFactor(float value);
 
 	// Rendering functions
 	void render(sf::RenderTarget& target);

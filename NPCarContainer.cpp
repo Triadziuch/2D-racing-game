@@ -1,11 +1,12 @@
 #include "NPCarContainer.h"
 
 // Initialization functions 
-void NPCarContainer::initVariables(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize)
+void NPCarContainer::initVariables(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize, float* _speed_multiplier)
 {
 	this->car_spawn_left	 = _car_spawn_left;
 	this->car_spawn_right	 = _car_spawn_right;
 	this->windowSize		 = _windowSize;
+	this->speed_multiplier	 = _speed_multiplier;
 
 	this->texture_car = new sf::Texture[this->car_number];
 	for (int i = 0; i < this->car_number; ++i)
@@ -19,11 +20,11 @@ void NPCarContainer::spawn()
 	if ((rand() % 50 == 0 && this->vCars.size() == 0) || (rand() % 150 == 0 && this->vCars.size() < this->max_cars)) {
 		if (rand() % 2 == 0 && this->last_spawn != 'R') {
 			this->last_spawn = 'R';
-			this->vCars.push_back(new NPCar(this->texture_car[rand() % this->car_number], static_cast<float>(rand() % 300 + 200), { this->car_spawn_right, static_cast<float>(this->windowSize.y) + 100.f }, -1));
+			this->vCars.push_back(new NPCar(this->texture_car[rand() % this->car_number], static_cast<float>(rand() % 300 + 200), { this->car_spawn_right, static_cast<float>(this->windowSize.y) + 100.f }, -1, this->speed_multiplier));
 		}
 		else if (this->last_spawn != 'L'){
 			this->last_spawn = 'L';
-			this->vCars.push_back(new NPCar(this->texture_car[rand() % this->car_number], static_cast<float>(rand() % 450 + 380), { this->car_spawn_left, -100.f }, 1));
+			this->vCars.push_back(new NPCar(this->texture_car[rand() % this->car_number], static_cast<float>(rand() % 450 + 380), { this->car_spawn_left, -100.f }, 1, this->speed_multiplier));
 		}
 	}
 }
@@ -36,10 +37,10 @@ void NPCarContainer::delete_out_of_border()
 }
 
 // Constructors / Destructors
-NPCarContainer::NPCarContainer(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize)
+NPCarContainer::NPCarContainer(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize, float *_speed_multiplier)
 {
 	srand(static_cast<unsigned>(time(nullptr)));
-	this->initVariables(_car_spawn_left, _car_spawn_right, _windowSize);
+	this->initVariables(_car_spawn_left, _car_spawn_right, _windowSize, _speed_multiplier);
 }
 
 NPCarContainer::~NPCarContainer()
@@ -55,7 +56,9 @@ NPCarContainer::~NPCarContainer()
 void NPCarContainer::update(float dt)
 {
 	this->spawn();
-	this->delete_out_of_border();
+
+	if (!this->vCars.empty())
+		this->delete_out_of_border();
 
 	for (auto& car : this->vCars)
 		car->update(dt);

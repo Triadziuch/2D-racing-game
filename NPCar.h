@@ -12,16 +12,17 @@ private:
 	float		 speed;
 	int			 direction;
 	float		 scale;
+	float*		 speed_multiplier;
 
 	// Initialization functions 
-	void initVariables(sf::Texture& _texture, float _speed, sf::Vector2f _spawn_pos, int _direction);
+	void initVariables(sf::Texture& _texture, float _speed, sf::Vector2f _spawn_pos, int _direction, float *_speed_multiplier);
 
 	// Private functions
 	void move(float dt);
 
 public:
 	// Constructors / Destructors
-	NPCar(sf::Texture& _texture, float _speed, sf::Vector2f _spawn_pos, int _direction);
+	NPCar(sf::Texture& _texture, float _speed, sf::Vector2f _spawn_pos, int _direction, float* _speed_multiplier);
 	virtual ~NPCar();
 
 	// Update functions

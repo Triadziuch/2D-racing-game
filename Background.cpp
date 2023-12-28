@@ -63,6 +63,9 @@ void Background::initVariables(sf::Vector2u windowSize)
 	this->max_pekniecie = 3;
 	this->max_przyspieszenie = 1;
 	this->max_smar = 1;
+
+	this->updateRoad(0.f, 0.f);
+	this->NPCar = new NPCarContainer(this->getCarSpawnLeft(), this->getCarSpawnRight(), this->windowSize, &this->mnoznik_predkosci);
 }
 
 // Private road functions
@@ -120,7 +123,10 @@ void Background::spawnPickups()
 		int car_spawn_left_pos = static_cast<int>(this->getCarSpawnLeft());
 		int car_spawn_right_pos = static_cast<int>(this->getCarSpawnRight());
 
-		this->vpickups.push_back(new Pickup({ static_cast<float>(car_spawn_left_pos + rand() %(car_spawn_right_pos + 32 - car_spawn_left_pos)) - 48.f, -100.f }, this->texture_pickups[texture_id], type));
+		this->vpickups.push_back(new Pickup({ static_cast<float>(car_spawn_left_pos + rand() %(car_spawn_right_pos - car_spawn_left_pos)) - 48.f, -100.f }, 
+											  this->texture_pickups[texture_id], type, static_cast<float>(this->windowSize.x) / 2.f));
+		
+		
 		/*while (this->collidePickups(this->vpickups.back()->getFloatRect())) {
 			this->vpickups.pop_back();
 			this->vpickups.push_back(new Pickup({ static_cast<float>(car_spawn_right_pos + rand() % (car_spawn_left_pos + 32 - car_spawn_right_pos)) - 48.f, -100.f }, this->texture_pickups[texture_id], type));
@@ -181,6 +187,40 @@ bool Background::backgroundContainsV2f(const sf::Vector2f& obj)
 	return true;
 }
 
+// Update functions
+void Background::update(float dt, float movement_offset)
+{
+	this->updateRoad(dt, movement_offset);
+	this->updatePickups(dt, movement_offset);
+	this->updateNPCar(dt);
+}
+
+void Background::updateRoad(float dt, float movement_offset)
+{
+	for (const auto& droga : this->vdroga)
+		droga->update(dt, movement_offset * this->mnoznik_predkosci);
+
+	if (this->getNajwyzszaDroga() + 100.f > 0.f)
+		this->dodajDroge(this->getNajwyzszaDroga());
+
+	if (!this->vdroga.empty() && this->vdroga[0]->getPosition() > this->windowSize.y)
+		this->vdroga.erase(this->vdroga.begin());
+}
+
+void Background::updatePickups(float dt, float movement_offset)
+{
+	for (const auto& pickup : this->vpickups)
+		pickup->update(dt, movement_offset * this->mnoznik_predkosci);
+
+	this->spawnPickups();
+	this->deletePickups();
+}
+
+void Background::updateNPCar(float dt)
+{
+	this->NPCar->update(dt);
+}
+
 // Accessors / Mutators
 sf::FloatRect Background::getBorders()
 {
@@ -205,32 +245,19 @@ float Background::getCarSpawnRight()
 	return 0.f;
 }
 
-// Update functions
-void Background::update(float dt, float movement_offset)
+std::vector<Pickup*>* Background::getPickupsPtr()
 {
-	this->updateRoad(dt, movement_offset);
-	this->updatePickups(dt, movement_offset);
+	return &this->vpickups;
 }
 
-void Background::updateRoad(float dt, float movement_offset)
+void Background::setSpeedFactor(float value)
 {
-	for (const auto& droga : this->vdroga)
-		droga->update(dt, movement_offset * this->mnoznik_predkosci);
-
-	if (this->getNajwyzszaDroga() + 100.f > 0.f)
-		this->dodajDroge(this->getNajwyzszaDroga());
-
-	if (!this->vdroga.empty() && this->vdroga[0]->getPosition() > this->windowSize.y)
-		this->vdroga.erase(this->vdroga.begin());
+	this->mnoznik_predkosci = value;
 }
 
-void Background::updatePickups(float dt, float movement_offset)
+void Background::addSpeedFactor(float value)
 {
-	for (const auto& pickup : this->vpickups)
-		pickup->update(dt, movement_offset * this->mnoznik_predkosci);
-
-	this->spawnPickups();
-	this->deletePickups();
+	this->mnoznik_predkosci += value;
 }
 
 // Rendering functions
@@ -241,4 +268,6 @@ void Background::render(sf::RenderTarget& target)
 
 	for (const auto& pickup : this->vpickups)
 		pickup->render(target);
+
+	this->NPCar->render(target);
 }

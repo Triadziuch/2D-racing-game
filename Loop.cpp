@@ -16,9 +16,7 @@ void Loop::initVariables()
 	this->car = new Car(this->window->getSize());
 	this->background = new Background(this->window->getSize());
 	this->background_moving_speed = 300.f;
-	this->background->update(0.f, 0.f);
 	this->collisionProcessing = new CollisionProcessing(this->car, this->background, this->background->getBorders());
-	this->NPCar = new NPCarContainer(this->background->getCarSpawnLeft(), this->background->getCarSpawnRight(), this->window->getSize());
 }
 
 // Constructors / Destructors
@@ -53,7 +51,6 @@ void Loop::update() {
 	if (!this->isEnd) {
 		this->car->update(this->dt);
 		this->background->update(this->dt, this->background_moving_speed);
-		this->NPCar->update(this->dt);
 		this->collisionProcessing->update(this->dt);
 	}
 }
@@ -83,7 +80,6 @@ void Loop::render() {
 	this->window->clear(sf::Color::Black);
 
 	this->background->render(*this->window);
-	this->NPCar->render(*this->window);
 	this->car->render(*this->window);
 
 	// Displaying frame

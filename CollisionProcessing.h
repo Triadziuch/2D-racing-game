@@ -4,7 +4,7 @@
 #include <SFML/System.hpp>
 #include "Background.h";
 #include "Car.h"
-#include "NPCarContainer.h"
+#include <iostream>
 
 using namespace std;
 
@@ -14,6 +14,7 @@ private:
 	Car* car;
 	Background* background;
 	sf::FloatRect roadBorders;
+	vector<Pickup*>* pickups;
 
 	// Initialization functions
 	void initVariables(Car* _car, Background* _background, sf::FloatRect _roadBorders);
@@ -21,6 +22,7 @@ private:
 	// Private functions
 	void player_grass(float dt);
 	void player_borders();
+	void player_pickups();
 
 public:
 	// Constructors / Destructors
