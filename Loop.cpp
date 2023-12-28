@@ -11,12 +11,24 @@ void Loop::initWindow()
 void Loop::initVariables()
 {
 	srand(static_cast<unsigned>(time(nullptr)));
+
 	this->isEnd = false;
 	this->color_background = sf::Color(250, 248, 239);
-	this->car = new Car(this->window->getSize());
-	this->background = new Background(this->window->getSize());
 	this->background_moving_speed = 300.f;
+
+	this->aktualna_lokacja = 0;
+	this->zycia_max = 5;
+	this->zycia = 5;
+	this->dystans = 0.f;
+	this->mnoznik_predkosci = 1.f;
+	this->mnoznik_puntkow = 1.f;
+	this->punkty = 0.f;
+	this->predkosc = 100.f;
+
+	this->car = new Car(this->window->getSize());
+	this->background = new Background(this->window->getSize(), &this->aktualna_lokacja, &this->dystans, &this->mnoznik_predkosci, &this->mnoznik_puntkow, &this->punkty, &this->predkosc, &this->zycia);
 	this->collisionProcessing = new CollisionProcessing(this->car, this->background, this->background->getBorders());
+	this->gui = new GUI({ static_cast<float>(this->window->getSize().x), static_cast<float>(this->window->getSize().y) }, this->background->getBorders(), this->nazwy_lokacji,  &this->aktualna_lokacja, &this->punkty, &this->mnoznik_puntkow, &this->dystans, &this->predkosc, &this->zycia_max, &this->zycia);
 }
 
 // Constructors / Destructors
@@ -52,6 +64,12 @@ void Loop::update() {
 		this->car->update(this->dt);
 		this->background->update(this->dt, this->background_moving_speed);
 		this->collisionProcessing->update(this->dt);
+		this->gui->update();
+
+		printf("Punkty: %f\n", this->punkty);
+		printf("Mnoznik: %f\n", this->mnoznik_puntkow);
+		printf("Dystans: %f\n", this->dystans);
+		printf("Predkosc: %f\n\n", 100.f * this->mnoznik_predkosci);
 	}
 }
 
@@ -81,7 +99,7 @@ void Loop::render() {
 
 	this->background->render(*this->window);
 	this->car->render(*this->window);
-
+	this->gui->render(*this->window);
 	// Displaying frame
 	this->window->display();
 }

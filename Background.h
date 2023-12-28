@@ -12,7 +12,7 @@ private:
 	sf::Vector2u windowSize;
 	float start_dekoracje;
 	float scale;
-	int aktualna_lokacja;
+	int *aktualna_lokacja;
 	const sf::Vector2i rozmiar_droga{ 12, 4 }, rozmiar_tankowanie{ 12, 19 };
 
 	bool dekoracje_droga[4][12] = {
@@ -48,7 +48,9 @@ private:
 	static constexpr int liczba_lokacji = 1;
 	static constexpr int liczba_typow_dekoracji = 4;
 	static constexpr int liczba_typow_drog = 2;
-	float mnoznik_predkosci = 1.f;
+
+	int* zycia;
+	float* mnoznik_predkosci, * mnoznik_punktow, * dystans, * punkty, * predkosc;
 
 	sf::Texture texture_dekoracje[liczba_lokacji][liczba_typow_dekoracji];
 	sf::Texture** texture_dekoracje_wsk;
@@ -67,8 +69,10 @@ private:
 
 	NPCarContainer* NPCar;
 
+	// Zmienne punktowe
+
 	// Initialization functions 
-	void initVariables(sf::Vector2u windowSize);
+	void initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, float* _dystans, float* _mnoznik_predkosci, float* _mnoznik_punktow, float* _punkty, float* _predkosc, int* _zycia);
 
 	// Private road functions
 	float getNajwyzszaDroga();
@@ -81,7 +85,7 @@ private:
 
 public:
 	// Constructors / Destructors
-	Background(sf::Vector2u windowSize);
+	Background(sf::Vector2u windowSize, int *_aktualna_lokacja, float *_dystans, float *_mnoznik_predkosci, float* _mnoznik_punktow, float* _punkty, float* _predkosc, int* _zycia);
 	virtual ~Background();
 
 	// Public functions
@@ -92,6 +96,7 @@ public:
 	void updateRoad(float dt, float movement_offset);
 	void updatePickups(float dt, float movement_offset);
 	void updateNPCar(float dt);
+	void updateStatistics(float dt, float movement_offset);
 
 	// Accessors / Mutators
 	sf::FloatRect getBorders();
@@ -101,6 +106,8 @@ public:
 
 	void setSpeedFactor(float value);
 	void addSpeedFactor(float value);
+	void setPointsFactor(float value);
+	void addPointsFactor(float value);
 
 	// Rendering functions
 	void render(sf::RenderTarget& target);

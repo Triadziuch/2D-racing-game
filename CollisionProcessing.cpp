@@ -43,16 +43,17 @@ void CollisionProcessing::player_borders()
 void CollisionProcessing::player_pickups()
 {
 	for (auto const& pickup : *this->pickups) {
-		if (!pickup->getCollided()) { //dziura przyspieszenie
-			if (!pickup->getCurrentlyCollides()) { //pierwsza kolizja
+		if (!pickup->getCollided()) {
+			if (!pickup->getCurrentlyCollides()) {
 				if (this->car->getFloatRect().intersects(pickup->getFloatRect())) {
 					if (pickup->getType() == "dziura") {
-						printf("KOLIZJA: DZIURA\n");
+						this->background->setSpeedFactor(1.f);
+						this->background->setPointsFactor(1.f);
 						pickup->setCollided(true);
 					}
 					else if (pickup->getType() == "przyspieszenie") {
-						printf("KOLIZJA: PRZYSPIESZENIE\n");
-						this->background->addSpeedFactor(0.05f);
+						this->background->addSpeedFactor(0.1f);
+						this->background->addPointsFactor(0.25f);
 						pickup->setCollided(true);
 					}
 					else
@@ -60,7 +61,7 @@ void CollisionProcessing::player_pickups()
 				}
 			}
 			if (pickup->getCurrentlyCollides()) {
-				if (this->car->getFloatRect().intersects(pickup->getFloatRect())) { // co robimy kiedy jesteœmy na obiekcie
+				if (this->car->getFloatRect().intersects(pickup->getFloatRect())) {
 					if (pickup->getType() == "pekniecie") {
 						this->car->setSpeedFactor(0.25f);
 					}
@@ -69,9 +70,10 @@ void CollisionProcessing::player_pickups()
 						this->car->move({ 1.f * pickup->getKierunekZjezdzania(), 0.f });
 					}
 				}
-				else { // co robimy kiedy zjedziemy z obiektu
+				else {
 					if (pickup->getType() == "pekniecie") {
 						this->car->setSpeedFactor(1.f);
+						this->background->addPointsFactor(-0.01f);
 					}
 					else if (pickup->getType() == "lod" || pickup->getType() == "smar") {
 						this->car->setSpeedFactor(1.f);
@@ -79,7 +81,6 @@ void CollisionProcessing::player_pickups()
 					pickup->setCurrentlyCollides(false);
 				}
 			}
-			
 		}
 		else {
 

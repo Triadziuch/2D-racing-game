@@ -12,6 +12,7 @@
 #include <Windows.h>
 #include <fstream>
 #include "CollisionProcessing.h"
+#include "GUI.h"
 
 class Loop
 {
@@ -29,9 +30,14 @@ private:
 	Background* background;
 	Car *car;
 	CollisionProcessing *collisionProcessing;
+	GUI* gui;
 
 	float dt;
 	float background_moving_speed;
+
+	int aktualna_lokacja, zycia_max, zycia;
+	string nazwy_lokacji[4] = { "Podlasie", "Pustynia", "Most", "Arktyka" };
+	float dystans, mnoznik_predkosci, mnoznik_puntkow, punkty, predkosc;
 
 	// Background color
 	sf::Color color_background;

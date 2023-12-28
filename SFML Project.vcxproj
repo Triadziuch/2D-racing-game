@@ -23,6 +23,7 @@
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="CollisionProcessing.cpp" />
     <ClCompile Include="Droga.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NPCar.cpp" />
@@ -36,6 +37,7 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="CollisionProcessing.h" />
     <ClInclude Include="Droga.h" />
+    <ClInclude Include="GUI.h" />
     <ClInclude Include="Loop.h" />
     <ClInclude Include="NPCar.h" />
     <ClInclude Include="NPCarContainer.h" />

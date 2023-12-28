@@ -1,12 +1,19 @@
 #include "Background.h"
 
 // Initialization functions 
-void Background::initVariables(sf::Vector2u windowSize)
+void Background::initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, float* _dystans, float* _mnoznik_predkosci, float* _mnoznik_punktow, float* _punkty, float* _predkosc, int* _zycia)
 {
 	this->windowSize = windowSize;
 	this->start_dekoracje = static_cast<float>(this->windowSize.x) * 0.3f;
 	this->scale = 4.f;
 	this->aktualna_lokacja = 0;
+	this->aktualna_lokacja = _aktualna_lokacja;
+	this->dystans = _dystans;
+	this->mnoznik_predkosci = _mnoznik_predkosci;
+	this->mnoznik_punktow = _mnoznik_punktow;
+	this->punkty = _punkty;
+	this->predkosc = _predkosc;
+	this->zycia = _zycia;
 
 	// Road variables initialization
 	this->rozmieszenie_dekoracji_droga = new bool* [rozmiar_droga.y];
@@ -65,7 +72,7 @@ void Background::initVariables(sf::Vector2u windowSize)
 	this->max_smar = 1;
 
 	this->updateRoad(0.f, 0.f);
-	this->NPCar = new NPCarContainer(this->getCarSpawnLeft(), this->getCarSpawnRight(), this->windowSize, &this->mnoznik_predkosci);
+	this->NPCar = new NPCarContainer(this->getCarSpawnLeft(), this->getCarSpawnRight(), this->windowSize, this->mnoznik_predkosci);
 }
 
 // Private road functions
@@ -80,9 +87,9 @@ float Background::getNajwyzszaDroga()
 void Background::dodajDroge(float wysokosc)
 {
 	if (rand() % 100 + 1  < 3) 
-		this->vdroga.push_back(new Droga(this->rozmiar_tankowanie, this->scale, { this->start_dekoracje, wysokosc }, *texture_dekoracje_wsk, this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_tankowanie, this->texture_droga_wsk[this->aktualna_lokacja][1]));
+		this->vdroga.push_back(new Droga(this->rozmiar_tankowanie, this->scale, { this->start_dekoracje, wysokosc }, *texture_dekoracje_wsk, this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_tankowanie, this->texture_droga_wsk[*this->aktualna_lokacja][1]));
 	else
-		this->vdroga.push_back(new Droga(this->rozmiar_droga, this->scale, { this->start_dekoracje, wysokosc }, *texture_dekoracje_wsk, this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_droga, this->texture_droga_wsk[this->aktualna_lokacja][0]));
+		this->vdroga.push_back(new Droga(this->rozmiar_droga, this->scale, { this->start_dekoracje, wysokosc }, *texture_dekoracje_wsk, this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_droga, this->texture_droga_wsk[*this->aktualna_lokacja][0]));
 }
 
 // Private pickups functions
@@ -104,7 +111,7 @@ void Background::spawnPickups()
 	}
 	else if (wybor < szansa_smar && this->liczba_smar < this->max_smar) {
 		this->liczba_smar++;
-		if (this->aktualna_lokacja == 3){
+		if (*this->aktualna_lokacja == 3){
 			texture_id = 1;
 			type = "lod";
 		}
@@ -160,10 +167,10 @@ void Background::deletePickups()
 }
 
 // Constructors / Destructors
-Background::Background(sf::Vector2u windowSize)
+Background::Background(sf::Vector2u windowSize, int* _aktualna_lokacja, float* _dystans, float* _mnoznik_predkosci, float* _mnoznik_punktow, float* _punkty, float* _predkosc, int* _zycia)
 {
 	srand(static_cast<unsigned>(time(NULL)));
-	this->initVariables(windowSize);
+	this->initVariables(windowSize, _aktualna_lokacja, _dystans, _mnoznik_predkosci, _mnoznik_punktow, _punkty, _predkosc, _zycia);
 }
 
 Background::~Background()
@@ -193,12 +200,13 @@ void Background::update(float dt, float movement_offset)
 	this->updateRoad(dt, movement_offset);
 	this->updatePickups(dt, movement_offset);
 	this->updateNPCar(dt);
+	this->updateStatistics(dt, movement_offset);
 }
 
 void Background::updateRoad(float dt, float movement_offset)
 {
 	for (const auto& droga : this->vdroga)
-		droga->update(dt, movement_offset * this->mnoznik_predkosci);
+		droga->update(dt, movement_offset * *this->mnoznik_predkosci);
 
 	if (this->getNajwyzszaDroga() + 100.f > 0.f)
 		this->dodajDroge(this->getNajwyzszaDroga());
@@ -210,7 +218,7 @@ void Background::updateRoad(float dt, float movement_offset)
 void Background::updatePickups(float dt, float movement_offset)
 {
 	for (const auto& pickup : this->vpickups)
-		pickup->update(dt, movement_offset * this->mnoznik_predkosci);
+		pickup->update(dt, movement_offset * *this->mnoznik_predkosci);
 
 	this->spawnPickups();
 	this->deletePickups();
@@ -219,6 +227,13 @@ void Background::updatePickups(float dt, float movement_offset)
 void Background::updateNPCar(float dt)
 {
 	this->NPCar->update(dt);
+}
+
+void Background::updateStatistics(float dt, float movement_offset)
+{
+	float przesuniecie_mapy = dt * movement_offset * *this->mnoznik_predkosci;
+	*this->punkty += przesuniecie_mapy * *this->mnoznik_punktow;
+	*this->dystans += przesuniecie_mapy / 1000.f;
 }
 
 // Accessors / Mutators
@@ -252,12 +267,24 @@ std::vector<Pickup*>* Background::getPickupsPtr()
 
 void Background::setSpeedFactor(float value)
 {
-	this->mnoznik_predkosci = value;
+	*this->mnoznik_predkosci = value;
+	*this->predkosc = 100.f * *this->mnoznik_predkosci;
 }
 
 void Background::addSpeedFactor(float value)
 {
-	this->mnoznik_predkosci += value;
+	*this->mnoznik_predkosci += value;
+	*this->predkosc = 100.f * *this->mnoznik_predkosci;
+}
+
+void Background::setPointsFactor(float value)
+{
+	*this->mnoznik_punktow = value;
+}
+
+void Background::addPointsFactor(float value)
+{
+	*this->mnoznik_punktow += value;
 }
 
 // Rendering functions
