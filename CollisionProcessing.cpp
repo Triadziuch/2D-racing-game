@@ -47,8 +47,11 @@ void CollisionProcessing::player_pickups()
 			if (!pickup->getCurrentlyCollides()) {
 				if (this->car->getFloatRect().intersects(pickup->getFloatRect())) {
 					if (pickup->getType() == "dziura") {
-						this->background->setSpeedFactor(1.f);
-						this->background->setPointsFactor(1.f);
+						if (this->background->getSpeedFactor() >= 1.f)
+							this->background->setSpeedFactor(1.f);
+
+						if (this->background->getPointsFactor() >= 1.f)
+							this->background->setPointsFactor(1.f);
 						pickup->setCollided(true);
 					}
 					else if (pickup->getType() == "przyspieszenie") {
@@ -73,6 +76,7 @@ void CollisionProcessing::player_pickups()
 				else {
 					if (pickup->getType() == "pekniecie") {
 						this->car->setSpeedFactor(1.f);
+						this->background->addSpeedFactor(-0.02f);
 						this->background->addPointsFactor(-0.01f);
 					}
 					else if (pickup->getType() == "lod" || pickup->getType() == "smar") {

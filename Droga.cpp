@@ -1,7 +1,7 @@
 #include "Droga.h"
 
 // Initialization functions 
-void Droga::initVariables(const sf::Vector2i _rozmiar, float _scale, sf::Vector2f _start_dekoracje, sf::Texture* _texture_dekoracje, int _liczba_dekoracji, bool** _rozmieszenie_dekoracji, sf::Texture& _texture_droga)
+void Droga::initVariables(const sf::Vector2i _rozmiar, float _scale, sf::Vector2f _start_dekoracje, std::vector<sf::Texture>& _texture_dekoracje, int _liczba_dekoracji, bool** _rozmieszenie_dekoracji, sf::Texture& _texture_droga)
 {
 	this->scale		 = _scale;
 	this->rozmiar	 = _rozmiar;
@@ -43,7 +43,7 @@ void Droga::move(float value)
 }
 
 // Constructors / Destructors
-Droga::Droga(const sf::Vector2i _rozmiar, float _scale, sf::Vector2f _start_dekoracje, sf::Texture* _texture_dekoracje, int _liczba_dekoracji, bool** _rozmieszenie_dekoracji, sf::Texture& _texture_droga)
+Droga::Droga(const sf::Vector2i _rozmiar, float _scale, sf::Vector2f _start_dekoracje, std::vector<sf::Texture>& _texture_dekoracje, int _liczba_dekoracji, bool** _rozmieszenie_dekoracji, sf::Texture& _texture_droga)
 {
 	this->initVariables(_rozmiar, _scale, _start_dekoracje, _texture_dekoracje, _liczba_dekoracji, _rozmieszenie_dekoracji, _texture_droga);
 }

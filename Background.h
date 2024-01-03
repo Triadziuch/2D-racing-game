@@ -45,18 +45,18 @@ private:
 	bool** rozmieszenie_dekoracji_droga;
 	bool** rozmieszenie_dekoracji_tankowanie;
 
-	static constexpr int liczba_lokacji = 1;
+	static constexpr int liczba_lokacji = 4;
 	static constexpr int liczba_typow_dekoracji = 4;
 	static constexpr int liczba_typow_drog = 2;
 
 	int* zycia;
 	float* mnoznik_predkosci, * mnoznik_punktow, * dystans, * punkty, * predkosc;
 
+	std::vector<std::vector<sf::Texture>> vtexture_dekoracje;
 	sf::Texture texture_dekoracje[liczba_lokacji][liczba_typow_dekoracji];
-	sf::Texture** texture_dekoracje_wsk;
 
+	std::vector<std::vector<sf::Texture>> vtexture_droga;
 	sf::Texture texture_droga[liczba_lokacji][liczba_typow_drog];
-	sf::Texture** texture_droga_wsk;
 
 	std::vector <Droga*> vdroga;
 
@@ -103,6 +103,8 @@ public:
 	float getCarSpawnRight();
 	float getCarSpawnLeft();
 	std::vector <Pickup*>* getPickupsPtr();
+	float getSpeedFactor();
+	float getPointsFactor();
 
 	void setSpeedFactor(float value);
 	void addSpeedFactor(float value);

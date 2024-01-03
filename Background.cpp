@@ -6,7 +6,6 @@ void Background::initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, 
 	this->windowSize = windowSize;
 	this->start_dekoracje = static_cast<float>(this->windowSize.x) * 0.3f;
 	this->scale = 4.f;
-	this->aktualna_lokacja = 0;
 	this->aktualna_lokacja = _aktualna_lokacja;
 	this->dystans = _dystans;
 	this->mnoznik_predkosci = _mnoznik_predkosci;
@@ -14,6 +13,16 @@ void Background::initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, 
 	this->punkty = _punkty;
 	this->predkosc = _predkosc;
 	this->zycia = _zycia;
+
+
+	// Texture vectors initialization
+	this->vtexture_dekoracje.resize(this->liczba_lokacji);
+	for (auto& tex : this->vtexture_dekoracje)
+		tex.resize(this->liczba_typow_dekoracji);
+
+	this->vtexture_droga.resize(this->liczba_lokacji);
+	for (auto& tex : this->vtexture_droga)
+		tex.resize(this->liczba_typow_drog);
 
 	// Road variables initialization
 	this->rozmieszenie_dekoracji_droga = new bool* [rozmiar_droga.y];
@@ -29,18 +38,19 @@ void Background::initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, 
 			if (!this->texture_dekoracje[i][j].loadFromFile("Textures/Dekoracje/Ziemia" + std::to_string(i) + std::to_string(j) + ".png"))
 				printf("ERROR: Nie udalo sie wczytac pliku Textures/Dekoracje/Ziemia%d%d.png\n", i, j);
 
-	this->texture_dekoracje_wsk = new sf::Texture * [liczba_typow_dekoracji];
-	for (int i = 0; i < liczba_typow_dekoracji; ++i)
-		this->texture_dekoracje_wsk[i] = this->texture_dekoracje[i];
+	for (int i = 0; i < this->liczba_lokacji; ++i)
+		for (int j = 0; j < this->liczba_typow_dekoracji; ++j)
+			this->vtexture_dekoracje[i][j] = this->texture_dekoracje[i][j];
 
 	for (int i = 0; i < this->liczba_lokacji; ++i)
 		for (int j = 0; j < this->liczba_typow_drog; ++j)
 			if (!this->texture_droga[i][j].loadFromFile("Textures/Drogi/Droga" + std::to_string(i) + std::to_string(j) + ".png"))
 				printf("ERROR: Nie udalo sie wczytac pliku Textures/Drogi/Droga%d%d.png\n", i, j);
 
-	this->texture_droga_wsk = new sf::Texture * [liczba_typow_drog];
-	for (int i = 0; i < liczba_typow_drog; ++i)
-		this->texture_droga_wsk[i] = this->texture_droga[i];
+	for (int i = 0; i < this->liczba_lokacji; ++i)
+		for (int j = 0; j < this->liczba_typow_drog; ++j)
+			this->vtexture_droga[i][j] = this->texture_droga[i][j];
+			
 
 	// Pickups variables initialization
 	this->texture_pickups = new sf::Texture[this->liczba_pickups];
@@ -87,9 +97,9 @@ float Background::getNajwyzszaDroga()
 void Background::dodajDroge(float wysokosc)
 {
 	if (rand() % 100 + 1  < 3) 
-		this->vdroga.push_back(new Droga(this->rozmiar_tankowanie, this->scale, { this->start_dekoracje, wysokosc }, *texture_dekoracje_wsk, this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_tankowanie, this->texture_droga_wsk[*this->aktualna_lokacja][1]));
+		this->vdroga.push_back(new Droga(this->rozmiar_tankowanie, this->scale, { this->start_dekoracje, wysokosc }, this->vtexture_dekoracje[*this->aktualna_lokacja], this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_tankowanie, this->vtexture_droga[*this->aktualna_lokacja][1]));
 	else
-		this->vdroga.push_back(new Droga(this->rozmiar_droga, this->scale, { this->start_dekoracje, wysokosc }, *texture_dekoracje_wsk, this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_droga, this->texture_droga_wsk[*this->aktualna_lokacja][0]));
+		this->vdroga.push_back(new Droga(this->rozmiar_droga, this->scale, { this->start_dekoracje, wysokosc }, this->vtexture_dekoracje[*this->aktualna_lokacja], this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_droga, this->vtexture_droga[*this->aktualna_lokacja][0]));
 }
 
 // Private pickups functions
@@ -273,8 +283,20 @@ void Background::setSpeedFactor(float value)
 
 void Background::addSpeedFactor(float value)
 {
-	*this->mnoznik_predkosci += value;
-	*this->predkosc = 100.f * *this->mnoznik_predkosci;
+	if (*this->mnoznik_predkosci + value > 0.f) {
+		*this->mnoznik_predkosci += value;
+		*this->predkosc = 100.f * *this->mnoznik_predkosci;
+	}
+}
+
+float Background::getSpeedFactor()
+{
+	return *this->mnoznik_predkosci;
+}
+
+float Background::getPointsFactor()
+{
+	return *this->mnoznik_punktow;
 }
 
 void Background::setPointsFactor(float value)
@@ -284,7 +306,8 @@ void Background::setPointsFactor(float value)
 
 void Background::addPointsFactor(float value)
 {
-	*this->mnoznik_punktow += value;
+	if (*this->mnoznik_punktow + value > 0.f)
+		*this->mnoznik_punktow += value;
 }
 
 // Rendering functions

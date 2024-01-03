@@ -3,6 +3,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <time.h>
+#include <vector>
 
 class Droga
 {
@@ -14,14 +15,14 @@ private:
 	sf::Sprite sprite_droga;
 
 	// Initialization functions 
-	void initVariables(const sf::Vector2i _rozmiar, float _scale, sf::Vector2f _start_dekoracje, sf::Texture* _texture_dekoracje, int _liczba_dekoracji, bool** _rozmieszenie_dekoracji, sf::Texture& _texture_droga);
+	void initVariables(const sf::Vector2i _rozmiar, float _scale, sf::Vector2f _start_dekoracje, std::vector<sf::Texture>& _texture_dekoracje, int _liczba_dekoracji, bool** _rozmieszenie_dekoracji, sf::Texture& _texture_droga);
 
 	// Private functions
 	void move(float value);
 
 public:
 	// Constructors / Destructors
-	Droga(const sf::Vector2i _rozmiar, float _scale, sf::Vector2f _start_dekoracje, sf::Texture* _texture_dekoracje, int _liczba_dekoracji, bool** _rozmieszenie_dekoracji, sf::Texture& _texture_droga);
+	Droga(const sf::Vector2i _rozmiar, float _scale, sf::Vector2f _start_dekoracje, std::vector<sf::Texture> &_texture_dekoracje, int _liczba_dekoracji, bool** _rozmieszenie_dekoracji, sf::Texture& _texture_droga);
 	virtual ~Droga();
 
 	// Update functions

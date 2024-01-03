@@ -16,7 +16,7 @@ void Loop::initVariables()
 	this->color_background = sf::Color(250, 248, 239);
 	this->background_moving_speed = 300.f;
 
-	this->aktualna_lokacja = 0;
+	this->aktualna_lokacja = 2;
 	this->zycia_max = 5;
 	this->zycia = 5;
 	this->dystans = 0.f;
@@ -65,11 +65,6 @@ void Loop::update() {
 		this->background->update(this->dt, this->background_moving_speed);
 		this->collisionProcessing->update(this->dt);
 		this->gui->update();
-
-		printf("Punkty: %f\n", this->punkty);
-		printf("Mnoznik: %f\n", this->mnoznik_puntkow);
-		printf("Dystans: %f\n", this->dystans);
-		printf("Predkosc: %f\n\n", 100.f * this->mnoznik_predkosci);
 	}
 }
 

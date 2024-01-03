@@ -4,6 +4,7 @@
 #include <SFML/System.hpp>
 #include <string>
 #include <sstream>
+#include <format>
 
 using namespace std;
 
@@ -12,9 +13,10 @@ class GUI
 private:
 	// Private variables
 	int* aktualna_lokacja, * zycia, * zycia_max;
-	string* nazwy_lokacji[4];
+	string nazwy_lokacji[4];
 	sf::Color kolory_nazw_lokacji[4] = { sf::Color(66, 173, 55), sf::Color(239, 182, 129), sf::Color(33, 116, 196) , sf::Color(240, 238, 236) };
 	float* dystans, * mnoznik_puntkow, * punkty, * predkosc;
+	float lewa_krawedz_tekstu;
 	sf::Vector2f windowSize;
 	sf::FloatRect roadBorders;
 
@@ -30,15 +32,16 @@ private:
 	sf::Text text_mapa[2], text_punkty, text_mnoznik, text_dystans, text_predkosc;
 
 	// Initialization functions 
-	void initVariables(sf::Vector2f _windowSize, sf::FloatRect _roadBorders, string* _nazwy_lokacji, int* _aktualna_lokacja, float* _punkty, float* _mnoznik_punktow, float* _dystans, float* _predkosc, int* _zycia_max, int* _zycia);
+	void initVariables(sf::Vector2f _windowSize, sf::FloatRect _roadBorders, const string(&_nazwy_lokacji)[4], int* _aktualna_lokacja, float* _punkty, float* _mnoznik_punktow, float* _dystans, float* _predkosc, int* _zycia_max, int* _zycia);
 
 public:
 	// Constructors / Destructors
-	GUI(sf::Vector2f _windowSize, sf::FloatRect _roadBorders, string* _nazwy_lokacji, int* _aktualna_lokacja, float* _punkty, float* _mnoznik_punktow, float* _dystans, float* _predkosc, int* _zycia_max, int* _zycia);
+	GUI(sf::Vector2f _windowSize, sf::FloatRect _roadBorders, const string(&_nazwy_lokacji)[4], int* _aktualna_lokacja, float* _punkty, float* _mnoznik_punktow, float* _dystans, float* _predkosc, int* _zycia_max, int* _zycia);
 	virtual ~GUI();
 
 	// Update functions
 	void update();
+	void updateText();
 
 	// Rendering functions
 	void render(sf::RenderTarget& target);
