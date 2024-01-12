@@ -14,14 +14,28 @@ private:
 	double		 rotation_LR[2]{}, rotation_FB[2]{};
 	string		 port = "COM4";
 	SerialPort	 *STM32;
+	size_t		 message_iter{};
+	string		 message{};
+
+	// LCD Variables
+	const float* dystans, * punkty, * predkosc;
+	const int* zycia;
+	const bool* isEnd;
 	
 public:
+	// LCD Initialization
+	void initLCDVariables(const float* _dystans, const float* _punkty, const float* _predkosc, const int* _zycia, const bool* _isEnd);
+
 	// Constructors / Destructors
 	RotationProcessing();
 	~RotationProcessing();
 
 	// Update functions
-	bool update();
+	void update();
+	bool updateReceive();
+	void updateTransmitMessage();
+	void updateTransmit();
+	
 
 	// Accessors / Mutators
 	bool getIsConnected()	 { return this->STM32->isConnected(); };

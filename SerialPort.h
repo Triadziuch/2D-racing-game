@@ -26,5 +26,5 @@ public:
 
 	// Public functions
 	int ReadSerialPort(char* buffer, unsigned int buf_size);
-	bool WriteSerialPort(char* buffer, unsigned int buf_size);
+	int WriteSerialPort(const char* buffer, unsigned int buf_size);
 };

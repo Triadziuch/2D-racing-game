@@ -32,9 +32,11 @@ public:
 	void move(sf::Vector2f _offset);
 	void move(sf::Vector2f _offset, float _dt);
 
-	// Accessors
+	// Accessors / Mutators
 	sf::Vector2f getPosition() { return this->sprite.getPosition(); }
 	sf::FloatRect getFloatRect() { return this->sprite.getGlobalBounds(); }
+	RotationProcessing* getRP() { return &this->RP; }
+
 	void setSpeedFactor(float _speed_factor) { this->speed_factor = _speed_factor; }
 
 	// Rendering the game

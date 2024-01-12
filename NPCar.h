@@ -13,6 +13,7 @@ private:
 	int			 direction;
 	float		 scale;
 	float*		 speed_multiplier;
+	bool		 collided;
 
 	// Initialization functions 
 	void initVariables(sf::Texture& _texture, float _speed, sf::Vector2f _spawn_pos, int _direction, float *_speed_multiplier);
@@ -30,6 +31,8 @@ public:
 
 	// Accessors / Mutators
 	sf::FloatRect getFloatRect() { return this->sprite.getGlobalBounds(); }
+	bool getCollided()			 { return this->collided; }
+	void setCollided(bool value) { this->collided = value; }
 
 	// Rendering functions
 	void render(sf::RenderTarget& target);

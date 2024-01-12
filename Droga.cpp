@@ -59,13 +59,21 @@ void Droga::update(float dt, float movement_offset)
 }
 
 // Accessors / Mutators
-sf::FloatRect Droga::getBorders()
+sf::FloatRect Droga::getMapBorders() 
 {
 	sf::FloatRect borders;
 	borders.left = this->sprite_dekoracje[0][0].getGlobalBounds().left;
 	borders.top = this->sprite_dekoracje[0][0].getGlobalBounds().top;
 	borders.height = this->sprite_dekoracje[this->rozmiar.y - 1][0].getGlobalBounds().top - this->sprite_dekoracje[0][0].getGlobalBounds().top + this->sprite_dekoracje[0][0].getGlobalBounds().height;
 	borders.width = this->sprite_dekoracje[0][this->rozmiar.x - 1].getGlobalBounds().left - this->sprite_dekoracje[0][0].getGlobalBounds().left + this->sprite_dekoracje[0][0].getGlobalBounds().width;
+	return borders;
+}
+
+sf::FloatRect Droga::getRoadBorders()
+{
+	sf::FloatRect borders = this->sprite_droga.getGlobalBounds();
+	borders.left += this->sprite_dekoracje[0][0].getGlobalBounds().width * 4.f;
+	borders.width -= this->sprite_dekoracje[0][0].getGlobalBounds().width * 8.f;
 	return borders;
 }
 

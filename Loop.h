@@ -1,6 +1,4 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
+#pragma once
 #include <vector>
 #include <iostream>
 #include <map>
@@ -9,10 +7,12 @@
 #include <cstring>
 #include <iomanip>
 #include <locale>
-#include <Windows.h>
 #include <fstream>
 #include "CollisionProcessing.h"
 #include "GUI.h"
+#include "Leaderboard.h"
+
+using namespace std;
 
 class Loop
 {
@@ -31,6 +31,11 @@ private:
 	Car *car;
 	CollisionProcessing *collisionProcessing;
 	GUI* gui;
+	Leaderboard *leaderboard;
+
+	string test_string{};
+	sf::Font font;
+	sf::Text text_test;
 
 	float dt;
 	float background_moving_speed;
@@ -56,6 +61,7 @@ public:
 	
 	// Update functions
 	void update();
+	void updateGameOver();
 	void updatePollEvents();
 
 	// Rendering functions

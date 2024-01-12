@@ -1,4 +1,5 @@
 ﻿#include "Loop.h"
+#include "Leaderboard.h"
 
 int main() {
 	Loop loop;

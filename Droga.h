@@ -29,7 +29,8 @@ public:
 	void update(float dt, float movement_offset);
 
 	// Accessors / Mutators
-	sf::FloatRect getBorders();
+	sf::FloatRect getMapBorders();
+	sf::FloatRect getRoadBorders();
 	bool getDrogaContains(const sf::Vector2f&obj);
 	float getPosition() { return this->sprite_dekoracje[0][0].getPosition().y; }
 	float getTileWidth() { return this->sprite_dekoracje[0][0].getGlobalBounds().width; }

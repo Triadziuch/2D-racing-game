@@ -69,8 +69,6 @@ private:
 
 	NPCarContainer* NPCar;
 
-	// Zmienne punktowe
-
 	// Initialization functions 
 	void initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, float* _dystans, float* _mnoznik_predkosci, float* _mnoznik_punktow, float* _punkty, float* _predkosc, int* _zycia);
 
@@ -99,10 +97,12 @@ public:
 	void updateStatistics(float dt, float movement_offset);
 
 	// Accessors / Mutators
-	sf::FloatRect getBorders();
+	sf::FloatRect getMapBorders();
+	sf::FloatRect getRoadBorders();
 	float getCarSpawnRight();
 	float getCarSpawnLeft();
 	std::vector <Pickup*>* getPickupsPtr();
+	NPCarContainer* getNPCarContainerPtr();
 	float getSpeedFactor();
 	float getPointsFactor();
 

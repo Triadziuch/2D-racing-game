@@ -45,6 +45,9 @@
     <ClCompile Include="GUI.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="Leaderboard.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loop.h">
@@ -78,6 +81,9 @@
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
     <ClInclude Include="GUI.h">
+      <Filter>Pliki nagłówków</Filter>
+    </ClInclude>
+    <ClInclude Include="Leaderboard.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
   </ItemGroup>

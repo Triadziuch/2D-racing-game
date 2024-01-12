@@ -187,8 +187,6 @@ Background::~Background()
 {
 	delete[] this->rozmieszenie_dekoracji_droga;
 	delete[] this->rozmieszenie_dekoracji_tankowanie;
-	delete[] this->texture_dekoracje_wsk;
-	delete[] this->texture_droga_wsk;
 
 	for (const auto& droga : this->vdroga)
 		droga->~Droga();
@@ -247,11 +245,20 @@ void Background::updateStatistics(float dt, float movement_offset)
 }
 
 // Accessors / Mutators
-sf::FloatRect Background::getBorders()
+sf::FloatRect Background::getMapBorders()
 {
 	if (!this->vdroga.empty()) {
-		sf::FloatRect borders_down = this->vdroga[0]->getBorders();
+		sf::FloatRect borders_down = this->vdroga[0]->getMapBorders();
 		return sf::FloatRect(borders_down.left, 0.f, borders_down.width, static_cast<float>(this->windowSize.y));
+	}
+	return sf::FloatRect(0.f, 0.f, static_cast<float>(this->windowSize.x), static_cast<float>(this->windowSize.y));
+}
+
+sf::FloatRect Background::getRoadBorders()
+{
+	if (!this->vdroga.empty()) {
+		sf::FloatRect borders = this->vdroga[0]->getRoadBorders();
+		return sf::FloatRect(borders.left, 0.f, borders.width, static_cast<float>(this->windowSize.y));
 	}
 	return sf::FloatRect(0.f, 0.f, static_cast<float>(this->windowSize.x), static_cast<float>(this->windowSize.y));
 }
@@ -273,6 +280,11 @@ float Background::getCarSpawnRight()
 std::vector<Pickup*>* Background::getPickupsPtr()
 {
 	return &this->vpickups;
+}
+
+NPCarContainer* Background::getNPCarContainerPtr()
+{
+	return this->NPCar;
 }
 
 void Background::setSpeedFactor(float value)

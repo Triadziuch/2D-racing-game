@@ -1,13 +1,17 @@
 #include "CollisionProcessing.h"
 
 // Initialization functions
-void CollisionProcessing::initVariables(Car* _car, Background* _background, sf::FloatRect _roadBorders)
+void CollisionProcessing::initVariables(Car* _car, Background* _background, sf::FloatRect _mapBorders, sf::FloatRect _roadBorders, int *_aktualna_lokacja, int *_zycia)
 {
 	this->car = _car;
 	this->background = _background;
+	this->mapBorders = _mapBorders;
 	this->roadBorders = _roadBorders;
-	
+	this->aktualna_lokacja = _aktualna_lokacja;
+	this->zycia = _zycia;
+
 	this->pickups = this->background->getPickupsPtr();
+	this->NPCContainer = this->background->getNPCarContainerPtr();
 }
 
 // Private functions
@@ -26,18 +30,27 @@ void CollisionProcessing::player_borders()
 	sf::FloatRect carFR = this->car->getFloatRect();
 
 	// Left border collision
-	if (carFR.left < this->roadBorders.left)
-		this->car->move({ this->roadBorders.left - carFR.left, 0.f });
+	if (carFR.left < this->mapBorders.left)
+		this->car->move({ this->mapBorders.left - carFR.left, 0.f });
 	// Right border collision
-	else if (carFR.left + carFR.width > this->roadBorders.left + this->roadBorders.width)
-		this->car->move({ (this->roadBorders.left + this->roadBorders.width) - (carFR.left + carFR.width), 0.f });
+	else if (carFR.left + carFR.width > this->mapBorders.left + this->mapBorders.width)
+		this->car->move({ (this->mapBorders.left + this->mapBorders.width) - (carFR.left + carFR.width), 0.f });
 
 	// Top border collision
-	if (carFR.top < this->roadBorders.top)
-		this->car->move({ 0.f, this->roadBorders.top - carFR.top });
+	if (carFR.top < this->mapBorders.top)
+		this->car->move({ 0.f, this->mapBorders.top - carFR.top });
 	// Bottom border collision
-	else if (carFR.top + carFR.height > this->roadBorders.top + this->roadBorders.height)
-		this->car->move({ 0.f,  (this->roadBorders.top + this->roadBorders.height) - (carFR.top + carFR.height) });
+	else if (carFR.top + carFR.height > this->mapBorders.top + this->mapBorders.height)
+		this->car->move({ 0.f,  (this->mapBorders.top + this->mapBorders.height) - (carFR.top + carFR.height) });
+
+	if (*this->aktualna_lokacja == 2) {
+		// Left bridge road border collision
+		if (carFR.left < this->roadBorders.left - 20.f)
+			this->car->move({ this->roadBorders.left - carFR.left - 20.f, 0.f });
+		// Right bridge road border collision
+		else if (carFR.left + carFR.width > this->roadBorders.left + this->roadBorders.width + 20.f)
+			this->car->move({ (this->roadBorders.left + this->roadBorders.width + 20.f) - (carFR.left + carFR.width), 0.f });
+	}
 }
 
 void CollisionProcessing::player_pickups()
@@ -92,10 +105,16 @@ void CollisionProcessing::player_pickups()
 	}
 }
 
-// Constructors / Destructors
-CollisionProcessing::CollisionProcessing(Car* _car, Background* _background, sf::FloatRect _roadBorders)
+void CollisionProcessing::player_cars()
 {
-	this->initVariables(_car, _background, _roadBorders);
+	if (this->NPCContainer->intersects(this->car->getFloatRect())) 
+		--*this->zycia;
+}
+
+// Constructors / Destructors
+CollisionProcessing::CollisionProcessing(Car* _car, Background* _background, sf::FloatRect _mapBorders, sf::FloatRect _roadBorders, int* _aktualna_lokacja, int* _zycia)
+{
+	this->initVariables(_car, _background, _mapBorders, _roadBorders, _aktualna_lokacja, _zycia);
 }
 
 CollisionProcessing::~CollisionProcessing()
@@ -108,4 +127,5 @@ void CollisionProcessing::update(float dt)
 	this->player_grass(dt);
 	this->player_borders();
 	this->player_pickups();
+	this->player_cars();
 }

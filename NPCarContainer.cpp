@@ -64,6 +64,16 @@ void NPCarContainer::update(float dt)
 		car->update(dt);
 }
 
+bool NPCarContainer::intersects(const sf::FloatRect& rectangle) const
+{
+	for (auto& car : this->vCars)
+		if (car->getFloatRect().intersects(rectangle) && !car->getCollided()) {
+			car->setCollided(true);
+			return true;
+		}
+	return false;
+}
+
 // Rendering functions
 void NPCarContainer::render(sf::RenderTarget& target)
 {

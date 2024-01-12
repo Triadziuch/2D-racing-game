@@ -74,7 +74,13 @@ int SerialPort::ReadSerialPort(char* buffer, unsigned int buf_size)
 	return 0;
 }
 
-bool SerialPort::WriteSerialPort(char* buffer, unsigned int buf_size)
+int SerialPort::WriteSerialPort(const char* buffer, unsigned int buf_size)
 {
-	return false;
+	DWORD bytesWritten;
+
+	ClearCommError(handleToCOM, &errors, &status);
+
+	if (WriteFile(handleToCOM, buffer, buf_size, &bytesWritten, NULL))
+		return bytesWritten;
+	return 0;
 }

@@ -1,5 +1,15 @@
 #include "RotationProcessing.h"
 
+// LCD Initialization
+void RotationProcessing::initLCDVariables(const float* _dystans, const float* _punkty, const float* _predkosc, const int* _zycia, const bool* _isEnd)
+{
+	this->dystans = _dystans;
+	this->punkty = _punkty;
+	this->predkosc = _predkosc;
+	this->zycia = _zycia;
+	this->isEnd = _isEnd;
+}
+
 // Constructors / Destructors
 RotationProcessing::RotationProcessing()
 {
@@ -20,7 +30,16 @@ RotationProcessing::~RotationProcessing()
 }
 
 // Update functions
-bool RotationProcessing::update()
+void RotationProcessing::update()
+{
+	this->updateReceive();
+
+	if (!this->message_iter)
+		this->updateTransmitMessage();
+	this->updateTransmit();
+}
+
+bool RotationProcessing::updateReceive()
 {
 	bool ret = false;
 	if (this->STM32->isConnected())
@@ -48,5 +67,27 @@ bool RotationProcessing::update()
 			}
 			memset(this->inputData, 0, sizeof this->inputData);
 		}
+
 	return ret;
+}
+
+void RotationProcessing::updateTransmitMessage()
+{
+	this->message = to_string(static_cast<int>(*this->dystans)) + ' ' +
+					to_string(static_cast<int>(*this->punkty)) + ' ' +
+					to_string(static_cast<int>(*this->predkosc)) + ' ' +
+					to_string(*this->zycia) + ' ' + to_string(*this->isEnd) + '\n';
+	cout << "DEBUG: Wysylany do STM C-string: \"" << this->message.substr(0, this->message.length() - 1) << "\\n\"" << endl;
+}
+
+void RotationProcessing::updateTransmit()
+{
+	// Aktualnie przesy³amy ci¹g w formacie "dystans punkty predkosc zycia isEnd\n"
+
+	// Wysy³anie ci¹gu znaków
+	if (this->STM32->isConnected())
+		if (this->message_iter < this->message.length())
+			this->STM32->WriteSerialPort(&this->message[this->message_iter++], 1);
+		else
+			this->message_iter = 0;
 }

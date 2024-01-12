@@ -31,6 +31,9 @@ public:
 	// Update functions
 	void update(float dt);
 
+	// Public functions
+	bool intersects(const sf::FloatRect &rectangle) const;
+
 	// Rendering functions
 	void render(sf::RenderTarget& target);
 };
