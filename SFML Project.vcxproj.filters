@@ -9,93 +9,93 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Loop.cpp">
+    <ClCompile Include="src\Animator.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\AssetManager.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="SerialPort.cpp">
+    <ClCompile Include="src\Background.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="RotationProcessing.cpp">
+    <ClCompile Include="src\Car.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="Car.cpp">
+    <ClCompile Include="src\CollisionProcessing.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="Background.cpp">
+    <ClCompile Include="src\Droga.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="Droga.cpp">
+    <ClCompile Include="src\GUI.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionProcessing.cpp">
+    <ClCompile Include="src\Leaderboard.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="NPCarContainer.cpp">
+    <ClCompile Include="src\Loop.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="NPCar.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="Pickup.cpp">
+    <ClCompile Include="src\NPCar.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="GUI.cpp">
+    <ClCompile Include="src\NPCarContainer.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="Leaderboard.cpp">
+    <ClCompile Include="src\Pickup.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="Animator.cpp">
+    <ClCompile Include="src\RotationProcessing.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="AssetManager.cpp">
+    <ClCompile Include="src\SerialPort.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Loop.h">
+    <ClInclude Include="src\Animator.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="SerialPort.h">
+    <ClInclude Include="src\AssetManager.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="RotationProcessing.h">
+    <ClInclude Include="src\Background.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="Car.h">
+    <ClInclude Include="src\Car.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="Background.h">
+    <ClInclude Include="src\CollisionProcessing.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="Droga.h">
+    <ClInclude Include="src\Droga.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionProcessing.h">
+    <ClInclude Include="src\GUI.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="NPCarContainer.h">
+    <ClInclude Include="src\Leaderboard.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="NPCar.h">
+    <ClInclude Include="src\Loop.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="Pickup.h">
+    <ClInclude Include="src\NPCar.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="GUI.h">
+    <ClInclude Include="src\NPCarContainer.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="Leaderboard.h">
+    <ClInclude Include="src\Pickup.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="Animator.h">
+    <ClInclude Include="src\RotationProcessing.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
-    <ClInclude Include="AssetManager.h">
+    <ClInclude Include="src\SerialPort.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
   </ItemGroup>

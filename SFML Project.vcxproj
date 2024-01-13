@@ -19,37 +19,37 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Animator.cpp" />
-    <ClCompile Include="AssetManager.cpp" />
-    <ClCompile Include="Background.cpp" />
-    <ClCompile Include="Car.cpp" />
-    <ClCompile Include="CollisionProcessing.cpp" />
-    <ClCompile Include="Droga.cpp" />
-    <ClCompile Include="GUI.cpp" />
-    <ClCompile Include="Leaderboard.cpp" />
-    <ClCompile Include="Loop.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="NPCar.cpp" />
-    <ClCompile Include="NPCarContainer.cpp" />
-    <ClCompile Include="Pickup.cpp" />
-    <ClCompile Include="RotationProcessing.cpp" />
-    <ClCompile Include="SerialPort.cpp" />
+    <ClCompile Include="src\Animator.cpp" />
+    <ClCompile Include="src\AssetManager.cpp" />
+    <ClCompile Include="src\Background.cpp" />
+    <ClCompile Include="src\Car.cpp" />
+    <ClCompile Include="src\CollisionProcessing.cpp" />
+    <ClCompile Include="src\Droga.cpp" />
+    <ClCompile Include="src\GUI.cpp" />
+    <ClCompile Include="src\Leaderboard.cpp" />
+    <ClCompile Include="src\Loop.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\NPCar.cpp" />
+    <ClCompile Include="src\NPCarContainer.cpp" />
+    <ClCompile Include="src\Pickup.cpp" />
+    <ClCompile Include="src\RotationProcessing.cpp" />
+    <ClCompile Include="src\SerialPort.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animator.h" />
-    <ClInclude Include="AssetManager.h" />
-    <ClInclude Include="Background.h" />
-    <ClInclude Include="Car.h" />
-    <ClInclude Include="CollisionProcessing.h" />
-    <ClInclude Include="Droga.h" />
-    <ClInclude Include="GUI.h" />
-    <ClInclude Include="Leaderboard.h" />
-    <ClInclude Include="Loop.h" />
-    <ClInclude Include="NPCar.h" />
-    <ClInclude Include="NPCarContainer.h" />
-    <ClInclude Include="Pickup.h" />
-    <ClInclude Include="RotationProcessing.h" />
-    <ClInclude Include="SerialPort.h" />
+    <ClInclude Include="src\Animator.h" />
+    <ClInclude Include="src\AssetManager.h" />
+    <ClInclude Include="src\Background.h" />
+    <ClInclude Include="src\Car.h" />
+    <ClInclude Include="src\CollisionProcessing.h" />
+    <ClInclude Include="src\Droga.h" />
+    <ClInclude Include="src\GUI.h" />
+    <ClInclude Include="src\Leaderboard.h" />
+    <ClInclude Include="src\Loop.h" />
+    <ClInclude Include="src\NPCar.h" />
+    <ClInclude Include="src\NPCarContainer.h" />
+    <ClInclude Include="src\Pickup.h" />
+    <ClInclude Include="src\RotationProcessing.h" />
+    <ClInclude Include="src\SerialPort.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
