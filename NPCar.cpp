@@ -12,8 +12,6 @@ void NPCar::initVariables(sf::Texture &_texture, float _speed, sf::Vector2f _spa
 	this->sprite.setScale({ this->scale, this->scale });
 	this->sprite.setPosition(_spawn_pos);
 
-	this->collided = false;
-
 	if (this->direction == 1) {
 		this->sprite.setRotation(180.f);
 		this->sprite.move({ this->sprite.getGlobalBounds().width, 0.f });
@@ -36,6 +34,7 @@ NPCar::NPCar(sf::Texture& _texture, float _speed, sf::Vector2f _spawn_pos, int _
 
 NPCar::~NPCar()
 {
+	this->speed_multiplier = nullptr;
 }
 
 // Update functions

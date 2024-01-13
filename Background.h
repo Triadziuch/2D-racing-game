@@ -93,7 +93,7 @@ public:
 	void update(float dt, float movement_offset);
 	void updateRoad(float dt, float movement_offset);
 	void updatePickups(float dt, float movement_offset);
-	void updateNPCar(float dt);
+	void updateNPCar(float dt, float movement_offset);
 	void updateStatistics(float dt, float movement_offset);
 
 	// Accessors / Mutators

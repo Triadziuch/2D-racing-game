@@ -27,16 +27,16 @@ sf::Texture& AssetManager::GetTexture(std::string const& filename)
 	}
 }
 
-sf::SoundBuffer& AssetManager::GetSoundBuffer(std::string const& filename)
-{
-	auto& sBufferMap = sInstance->m_SoundBuffers;
-
-	auto pairFound = sBufferMap.find(filename);
-	if (pairFound != sBufferMap.end())
-		return pairFound->second;
-	else {
-		auto& sBuffer = sBufferMap[filename];
-		sBuffer.loadFromFile(filename);
-		return sBuffer;
-	}
-}
+//sf::SoundBuffer& AssetManager::GetSoundBuffer(std::string const& filename)
+//{
+//	auto& sBufferMap = sInstance->m_SoundBuffers;
+//
+//	auto pairFound = sBufferMap.find(filename);
+//	if (pairFound != sBufferMap.end())
+//		return pairFound->second;
+//	else {
+//		auto& sBuffer = sBufferMap[filename];
+//		sBuffer.loadFromFile(filename);
+//		return sBuffer;
+//	}
+//}

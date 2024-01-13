@@ -1,7 +1,5 @@
-#pragma once
 #include <vector>
 #include <list>
-
 #include "AssetManager.h"
 
 class Animator
@@ -47,6 +45,8 @@ public:
 	bool SwitchAnimation(std::string const& name);
 
 	std::string GetCurrentAnimationName() const;
+	sf::Sprite& getSprite();
+	bool getIsDone() { return (this->m_CurrentAnimation->m_Duration <= this->m_CurrentTime); }
 
 private:
 	// Returns the animation with the passed name

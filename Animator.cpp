@@ -1,4 +1,3 @@
-#pragma once
 #include "Animator.h"
 
 Animator::Animation& Animator::CreateAnimation(std::string const& name, std::string const& textureName, sf::Time const& duration, bool loop)
@@ -70,4 +69,9 @@ std::string Animator::GetCurrentAnimationName() const
 		return this->m_CurrentAnimation->m_Name;
 
 	return "";
+}
+
+sf::Sprite& Animator::getSprite()
+{
+	return this->m_Sprite;
 }

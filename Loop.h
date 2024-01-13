@@ -11,6 +11,7 @@
 #include "CollisionProcessing.h"
 #include "GUI.h"
 #include "Leaderboard.h"
+#include "AssetManager.h"
 
 using namespace std;
 
@@ -32,6 +33,7 @@ private:
 	CollisionProcessing *collisionProcessing;
 	GUI* gui;
 	Leaderboard *leaderboard;
+	AssetManager manager;
 
 	string test_string{};
 	sf::Font font;
@@ -43,6 +45,8 @@ private:
 	int aktualna_lokacja, zycia_max, zycia;
 	string nazwy_lokacji[4] = { "Podlasie", "Pustynia", "Most", "Arktyka" };
 	float dystans, mnoznik_predkosci, mnoznik_puntkow, punkty, predkosc;
+
+
 
 	// Background color
 	sf::Color color_background;

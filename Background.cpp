@@ -207,7 +207,7 @@ void Background::update(float dt, float movement_offset)
 {
 	this->updateRoad(dt, movement_offset);
 	this->updatePickups(dt, movement_offset);
-	this->updateNPCar(dt);
+	this->updateNPCar(dt, movement_offset);
 	this->updateStatistics(dt, movement_offset);
 }
 
@@ -232,9 +232,9 @@ void Background::updatePickups(float dt, float movement_offset)
 	this->deletePickups();
 }
 
-void Background::updateNPCar(float dt)
+void Background::updateNPCar(float dt, float movement_offset)
 {
-	this->NPCar->update(dt);
+	this->NPCar->update(dt, movement_offset * *this->mnoznik_predkosci);
 }
 
 void Background::updateStatistics(float dt, float movement_offset)
