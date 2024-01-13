@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="CollisionProcessing.cpp" />
@@ -34,6 +36,8 @@
     <ClCompile Include="SerialPort.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animator.h" />
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="CollisionProcessing.h" />

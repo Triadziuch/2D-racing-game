@@ -48,6 +48,12 @@
     <ClCompile Include="Leaderboard.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loop.h">
@@ -84,6 +90,12 @@
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
     <ClInclude Include="Leaderboard.h">
+      <Filter>Pliki nagłówków</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Pliki nagłówków</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
   </ItemGroup>
