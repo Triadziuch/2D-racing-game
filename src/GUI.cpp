@@ -23,15 +23,12 @@ void GUI::initVariables(sf::Vector2f _windowSize, sf::FloatRect _roadBorders, co
 	this->padding = 20.f;
 	this->scale = 3.f;
 
-	if (!this->texture_serca[0].loadFromFile("Textures/Serce/Serce-puste.png"))
-		printf("ERROR: Nie udalo sie wczytac pliku Textures/Serce/Serce-puste.png");
-	if (!this->texture_serca[1].loadFromFile("Textures/Serce/Serce-pelne.png"))
-		printf("ERROR: Nie udalo sie wczytac pliku Textures/Serce/Serce-pelne.png");
+	this->texture_serca[0] = &AssetManager::GetTexture("Textures/Serce/Serce-puste.png");
+	this->texture_serca[1] = &AssetManager::GetTexture("Textures/Serce/Serce-pelne.png");
 
 	this->sprite_serca = new sf::Sprite[*this->zycia_max];
 
-	if (!this->font.loadFromFile("Fonts/Pixel.ttf"))
-		printf("ERROR: Nie udalo sie wczytac pliku Fonts/Pixel.png");
+	this->font = AssetManager::GetFont("Fonts/Pixel.ttf");
 
 	this->s_mapa = "Mapa: ";
 	this->s_punkty = "Punkty: ";
@@ -96,11 +93,11 @@ void GUI::initVariables(sf::Vector2f _windowSize, sf::FloatRect _roadBorders, co
 	this->text_game_over.setPosition({ (this->windowSize.x - this->text_game_over.getGlobalBounds().width) / 2.f, (this->windowSize.y - this->text_game_over.getGlobalBounds().height) / 2.f });
 	
 	// Inicjalizacja sprite'ów serc
-	float szerokosc_serc = this->texture_serca[0].getSize().x * this->scale * *this->zycia_max + (*this->zycia_max - 1) * 16.f;
+	float szerokosc_serc = this->texture_serca[0]->getSize().x * this->scale * *this->zycia_max + (*this->zycia_max - 1) * 16.f;
 	float poczatek_serc = (this->windowSize.x - this->roadBorders.left - this->roadBorders.width - szerokosc_serc) / 2.f + this->roadBorders.left + this->roadBorders.width;
 
 	for (int i = 0; i < *this->zycia_max; ++i) {
-		this->sprite_serca[i].setTexture(this->texture_serca[(i < *this->zycia)]);
+		this->sprite_serca[i].setTexture(*this->texture_serca[(i < *this->zycia)]);
 		this->sprite_serca[i].setScale({ this->scale, this->scale });
 		this->sprite_serca[i].setPosition({ poczatek_serc + this->sprite_serca[i].getGlobalBounds().width * i + 16.f * i, this->text_predkosc.getGlobalBounds().top + this->text_predkosc.getGlobalBounds().height * 3.f });
 	}
@@ -136,7 +133,7 @@ void GUI::updateHearts()
 {
 	if (this->stare_zycia != *this->zycia) {
 		for (int i = 0; i < *this->zycia_max; ++i)
-			this->sprite_serca[i].setTexture(this->texture_serca[(i < *this->zycia)]);
+			this->sprite_serca[i].setTexture(*this->texture_serca[(i < *this->zycia)]);
 		this->stare_zycia = *this->zycia;
 	}
 }

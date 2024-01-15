@@ -54,6 +54,9 @@
     <ClCompile Include="src\SerialPort.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="src\Menu.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animator.h">
@@ -96,6 +99,9 @@
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
     <ClInclude Include="src\SerialPort.h">
+      <Filter>Pliki nagłówków</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Menu.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
   </ItemGroup>

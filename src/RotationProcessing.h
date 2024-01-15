@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <fstream>
 #include "SerialPort.h"
 
 using namespace std;
@@ -21,6 +22,9 @@ private:
 	const float* dystans, * punkty, * predkosc;
 	const int* zycia;
 	const bool* isEnd;
+
+	// Private functions
+	void readCOMfromfile();
 	
 public:
 	// LCD Initialization

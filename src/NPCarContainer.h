@@ -10,7 +10,6 @@ private:
 	const int				 car_number = 9;
 	const int				 max_cars = 4;
 	sf::Vector2u			 windowSize;
-	sf::Texture*			 texture_car;
 	std::vector<NPCar*>		 vCars;
 	float					 car_spawn_left, car_spawn_right;
 	char					 last_spawn{};

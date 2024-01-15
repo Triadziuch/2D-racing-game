@@ -1,22 +1,22 @@
 #include "Car.h"
 
 // Initialization functions 
-void Car::initVariables(sf::Vector2u windowSize)
+void Car::initVariables(sf::RenderWindow* _window)
 {
+	this->window = _window;
 	this->speed = 30.f;
 	this->scale = 4.f;
-	this->texture.loadFromFile("Textures/Samochody/car4.png");
-	this->sprite.setTexture(this->texture);
+	this->sprite.setTexture(AssetManager::GetTexture("Textures/Samochody/car4.png"));
 	this->sprite.setOrigin(this->sprite.getGlobalBounds().left + this->sprite.getGlobalBounds().width / 2.f, this->sprite.getGlobalBounds().top + this->sprite.getGlobalBounds().height / 2.f);
 	this->sprite.setScale({ this->scale, this->scale });
-	this->sprite.setPosition(static_cast<sf::Vector2f>(windowSize / 2u));
+	this->sprite.setPosition(static_cast<sf::Vector2f>(this->window->getSize() / 2u));
 	this->speed_factor = 1.f;
 }
 
 // Constructors / Destructors
-Car::Car(sf::Vector2u windowSize)
+Car::Car(sf::RenderWindow* _window)
 {
-	this->initVariables(windowSize);
+	this->initVariables(_window);
 }
 
 Car::~Car()
@@ -28,7 +28,6 @@ void Car::update(float dt)
 {
 	this->RP.update();
 	this->updateMovement(dt);
-	
 }
 
 sf::Vector2f Car::updateRotation()
@@ -69,6 +68,12 @@ void Car::move(sf::Vector2f _offset)
 void Car::move(sf::Vector2f _offset, float _dt)
 {
 	this->sprite.move(_offset * _dt * this->speed * this->speed_factor);
+}
+
+void Car::reset()
+{
+	this->sprite.setPosition(static_cast<sf::Vector2f>(this->window->getSize() / 2u));
+	this->speed_factor = 1.f;
 }
 
 // Rendering the game

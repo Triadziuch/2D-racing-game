@@ -8,8 +8,7 @@ void Leaderboard::initVariables(sf::RenderWindow* _window, float* _points, bool*
 	this->filename = "leaderboard.txt";
 	this->isEnd = _isEnd;
 
-	if (!this->font.loadFromFile("Fonts/Pixel.ttf"))
-		printf("ERROR: Nie udalo sie wczytac pliku Fonts/Pixel.png");
+	this->font = AssetManager::GetFont("Fonts/Pixel.ttf");
 	this->font_size = 32u;
 
 	fstream file;
@@ -66,7 +65,7 @@ void Leaderboard::initVariables(sf::RenderWindow* _window, float* _points, bool*
 	this->text_nazwa.setFillColor(sf::Color::White);
 	this->text_nazwa.setPosition({ this->text_podaj_nazwe.getGlobalBounds().left + this->text_podaj_nazwe.getGlobalBounds().width, this->text_podaj_nazwe.getGlobalBounds().top });
 
-	this->s_przejdz_do_menu = "Wcisnij ENTER, aby przejsc do menu...";
+	this->s_przejdz_do_menu = "Wcisnij ENTER, aby wrocic do menu...";
 	this->text_przejdz_do_menu.setFont(this->font);
 	this->text_przejdz_do_menu.setCharacterSize(this->font_size);
 	this->text_przejdz_do_menu.setFillColor(sf::Color::White);
@@ -94,11 +93,21 @@ void Leaderboard::addNameToLeaderboard()
 
 	for (size_t i = 0; i < this->wpisow; ++i) {
 		if (stoi(this->leaderboard_points[i]) < static_cast<int>(*this->points)) {
+			for (size_t j = this->wpisow; j > i + 1; --j) {
+				this->leaderboard_points[j - 1] = this->leaderboard_points[j - 2];
+				this->names[j - 1] = this->names[j - 2];
+				
+				this->text_leaderboard[j][2].setString(this->leaderboard_points[j - 1]);
+				this->text_leaderboard[j][1].setString(this->names[j - 1]);
+			}
 			this->leaderboard_points[i] = to_string(static_cast<int>(*this->points));
 			this->names[i] = this->nazwa_string;
-			this->text_leaderboard[i][1].setString(this->names[i]);
-			this->text_leaderboard[i][2].setString(this->leaderboard_points[i]);
+			
+			this->text_leaderboard[i + 1][2].setString(this->leaderboard_points[i]);
+			this->text_leaderboard[i + 1][1].setString(this->names[i]);
+
 			this->save();
+			*this->points = 0;
 			break;
 		}
 	}
@@ -126,10 +135,9 @@ void Leaderboard::updatePollEvents()
 						this->addNameToLeaderboard();
 				}
 			}
-			else if (ev.text.unicode == 13)
-				printf("Wyjscie do menu\n");
-
 		}
+		if (!this->enteringName && ev.Event::type == ev.Event::KeyPressed && ev.Event::key.code == sf::Keyboard::Enter)
+			*this->isEnd = false;
 	}
 }
 

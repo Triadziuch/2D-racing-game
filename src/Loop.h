@@ -11,7 +11,7 @@
 #include "CollisionProcessing.h"
 #include "GUI.h"
 #include "Leaderboard.h"
-#include "AssetManager.h"
+#include "Menu.h"
 
 using namespace std;
 
@@ -22,7 +22,7 @@ private:
 	sf::RenderWindow* window;
 
 	// is variables
-	bool isEnd;
+	bool isEnd, isMenu;
 
 	// Clock variables
 	sf::Clock dt_clock;
@@ -33,6 +33,7 @@ private:
 	CollisionProcessing *collisionProcessing;
 	GUI* gui;
 	Leaderboard *leaderboard;
+	Menu* menu;
 	AssetManager manager;
 
 	string test_string{};
@@ -54,6 +55,8 @@ private:
 	// Initialization functions 
 	void initWindow();
 	void initVariables();
+	void initAssets();
+	void initNewGame();
 
 public:
 	// Constructors / Destructors
@@ -65,6 +68,9 @@ public:
 	
 	// Update functions
 	void update();
+	void updateMenu();
+	void updateGame();
+	void updateLeaderboard();
 	void updateGameOver();
 	void updatePollEvents();
 
