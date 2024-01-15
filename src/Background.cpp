@@ -13,6 +13,7 @@ void Background::initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, 
 	this->punkty = _punkty;
 	this->predkosc = _predkosc;
 	this->zycia = _zycia;
+	this->blokada_punktow = false;
 
 
 	// Texture vectors initialization
@@ -35,8 +36,7 @@ void Background::initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, 
 
 	for (int i = 0; i < this->liczba_lokacji; ++i)
 		for (int j = 0; j < this->liczba_typow_dekoracji; ++j)
-			if (!this->texture_dekoracje[i][j].loadFromFile("Textures/Dekoracje/Ziemia" + std::to_string(i) + std::to_string(j) + ".png"))
-				printf("ERROR: Nie udalo sie wczytac pliku Textures/Dekoracje/Ziemia%d%d.png\n", i, j);
+			this->texture_dekoracje[i][j] = &AssetManager::GetTexture("Textures/Dekoracje/Ziemia" + std::to_string(i) + std::to_string(j) + ".png");
 
 	for (int i = 0; i < this->liczba_lokacji; ++i)
 		for (int j = 0; j < this->liczba_typow_dekoracji; ++j)
@@ -44,8 +44,7 @@ void Background::initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, 
 
 	for (int i = 0; i < this->liczba_lokacji; ++i)
 		for (int j = 0; j < this->liczba_typow_drog; ++j)
-			if (!this->texture_droga[i][j].loadFromFile("Textures/Drogi/Droga" + std::to_string(i) + std::to_string(j) + ".png"))
-				printf("ERROR: Nie udalo sie wczytac pliku Textures/Drogi/Droga%d%d.png\n", i, j);
+			this->texture_droga[i][j] = &AssetManager::GetTexture("Textures/Drogi/Droga" + std::to_string(i) + std::to_string(j) + ".png");
 
 	for (int i = 0; i < this->liczba_lokacji; ++i)
 		for (int j = 0; j < this->liczba_typow_drog; ++j)
@@ -54,20 +53,11 @@ void Background::initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, 
 
 	// Pickups variables initialization
 	this->texture_pickups = new sf::Texture[this->liczba_pickups];
-	if (!this->texture_pickups[0].loadFromFile("Textures/Pickups/Dziura.png"))
-		printf("ERROR: Nie udalo sie wczytac pliku Textures/Pickups/Dziura.png");
-
-	if (!this->texture_pickups[1].loadFromFile("Textures/Pickups/Lod.png"))
-		printf("ERROR: Nie udalo sie wczytac pliku Textures/Pickups/Lod.png");
-
-	if (!this->texture_pickups[2].loadFromFile("Textures/Pickups/Pekniecie.png"))
-		printf("ERROR: Nie udalo sie wczytac pliku Textures/Pickups/Pekniecie.png");
-
-	if (!this->texture_pickups[3].loadFromFile("Textures/Pickups/Przyspieszenie.png"))
-		printf("ERROR: Nie udalo sie wczytac pliku Textures/Pickups/Przyspieszenie.png");
-
-	if (!this->texture_pickups[4].loadFromFile("Textures/Pickups/Smar.png"))
-		printf("ERROR: Nie udalo sie wczytac pliku Textures/Pickups/Smar.png");
+	this->texture_pickups[0] = AssetManager::GetTexture("Textures/Pickups/Dziura.png");
+	this->texture_pickups[1] = AssetManager::GetTexture("Textures/Pickups/Lod.png");
+	this->texture_pickups[2] = AssetManager::GetTexture("Textures/Pickups/Pekniecie.png");
+	this->texture_pickups[3] = AssetManager::GetTexture("Textures/Pickups/Przyspieszenie.png");
+	this->texture_pickups[4] = AssetManager::GetTexture("Textures/Pickups/Smar.png");
 
 	this->szansa_dziura = 5;
 	this->szansa_lod = 80;
@@ -96,7 +86,7 @@ float Background::getNajwyzszaDroga()
 
 void Background::dodajDroge(float wysokosc)
 {
-	if (rand() % 100 + 1  < 3) 
+	if ((rand() % 100 + 1  < 30) && *this->aktualna_lokacja != 2) 
 		this->vdroga.push_back(new Droga(this->rozmiar_tankowanie, this->scale, { this->start_dekoracje, wysokosc }, this->vtexture_dekoracje[*this->aktualna_lokacja], this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_tankowanie, this->vtexture_droga[*this->aktualna_lokacja][1]));
 	else
 		this->vdroga.push_back(new Droga(this->rozmiar_droga, this->scale, { this->start_dekoracje, wysokosc }, this->vtexture_dekoracje[*this->aktualna_lokacja], this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_droga, this->vtexture_droga[*this->aktualna_lokacja][0]));
@@ -142,12 +132,6 @@ void Background::spawnPickups()
 
 		this->vpickups.push_back(new Pickup({ static_cast<float>(car_spawn_left_pos + rand() %(car_spawn_right_pos - car_spawn_left_pos)) - 48.f, -100.f }, 
 											  this->texture_pickups[texture_id], type, static_cast<float>(this->windowSize.x) / 2.f));
-		
-		
-		/*while (this->collidePickups(this->vpickups.back()->getFloatRect())) {
-			this->vpickups.pop_back();
-			this->vpickups.push_back(new Pickup({ static_cast<float>(car_spawn_right_pos + rand() % (car_spawn_left_pos + 32 - car_spawn_right_pos)) - 48.f, -100.f }, this->texture_pickups[texture_id], type));
-		}*/
 	}
 }
 
@@ -209,6 +193,7 @@ void Background::update(float dt, float movement_offset)
 	this->updatePickups(dt, movement_offset);
 	this->updateNPCar(dt, movement_offset);
 	this->updateStatistics(dt, movement_offset);
+	this->updateScenery();
 }
 
 void Background::updateRoad(float dt, float movement_offset)
@@ -240,8 +225,60 @@ void Background::updateNPCar(float dt, float movement_offset)
 void Background::updateStatistics(float dt, float movement_offset)
 {
 	float przesuniecie_mapy = dt * movement_offset * *this->mnoznik_predkosci;
-	*this->punkty += przesuniecie_mapy * *this->mnoznik_punktow;
+	if (!this->blokada_punktow)
+		*this->punkty += przesuniecie_mapy * *this->mnoznik_punktow * 10.f;
 	*this->dystans += przesuniecie_mapy / 1000.f;
+}
+
+void Background::updateScenery()
+{
+	bool zmieniono = false;
+	int dist = static_cast<int>(*this->dystans) % 20;
+	
+	if (dist >= 15 && dist < 20 && *this->aktualna_lokacja == 2) {
+		*this->aktualna_lokacja = 3;
+		zmieniono = true;
+	}	
+	else if (dist >= 10 && dist < 15 && *this->aktualna_lokacja == 1) {
+		*this->aktualna_lokacja = 2;
+		zmieniono = true;
+	}	
+	else if (dist >= 5 && dist < 10 && *this->aktualna_lokacja == 0) {
+		*this->aktualna_lokacja = 1;
+		zmieniono = true;
+	}
+	else if (dist < 5 && *this->aktualna_lokacja == 3) {
+		*this->aktualna_lokacja = 0;
+		zmieniono = true;
+	}
+		
+	if (zmieniono) {
+		for (const auto& droga : this->vdroga)
+			droga->setTexture(this->vtexture_dekoracje[*this->aktualna_lokacja], this->vtexture_droga[*this->aktualna_lokacja][droga->getRoadType()]);
+
+		if (*this->aktualna_lokacja == 3) {
+			for (const auto& pickup : this->vpickups) {
+				std::string type = pickup->getType();
+				int texture_id{};
+
+				if (type == "dziura")
+					texture_id = 0;
+				else if (type == "lod")
+					texture_id = 1;
+				else if (type == "pekniecie")
+					texture_id = 2;
+				else if (type == "przyspieszenie")
+					texture_id = 3;
+				else if (type == "smar")
+					texture_id = 4;
+				else
+					texture_id = -1;
+
+				if (texture_id != -1)
+					pickup->setTexture(this->texture_pickups[texture_id]);
+			}
+		}
+	}
 }
 
 // Accessors / Mutators
@@ -320,6 +357,11 @@ void Background::addPointsFactor(float value)
 {
 	if (*this->mnoznik_punktow + value > 0.f)
 		*this->mnoznik_punktow += value;
+}
+
+void Background::setLockPoints(bool value)
+{
+	this->blokada_punktow = value;
 }
 
 // Rendering functions

@@ -29,6 +29,7 @@
     <ClCompile Include="src\Leaderboard.cpp" />
     <ClCompile Include="src\Loop.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\NPCar.cpp" />
     <ClCompile Include="src\NPCarContainer.cpp" />
     <ClCompile Include="src\Pickup.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="src\GUI.h" />
     <ClInclude Include="src\Leaderboard.h" />
     <ClInclude Include="src\Loop.h" />
+    <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\NPCar.h" />
     <ClInclude Include="src\NPCarContainer.h" />
     <ClInclude Include="src\Pickup.h" />

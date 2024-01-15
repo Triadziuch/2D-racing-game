@@ -20,9 +20,13 @@ void CollisionProcessing::player_grass(float dt)
 	if (!this->background->backgroundContainsV2f(this->car->getPosition())) {
 		this->car->setSpeedFactor(0.6f);
 		this->car->move({ 0.f, 10.f }, dt);
+		this->background->setLockPoints(true);
 	}
-	else
+	else {
 		this->car->setSpeedFactor(1.f);
+		this->background->setLockPoints(false);
+	}
+		
 }
 
 void CollisionProcessing::player_borders()

@@ -3,24 +3,25 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include "RotationProcessing.h"
+#include "AssetManager.h"
 
 class Car
 {
 private:
 	// Private variables
 	RotationProcessing RP;
-	sf::Texture texture;
 	sf::Sprite sprite;
 	float speed;
 	float scale;
 	float speed_factor;
+	sf::RenderWindow* window;
 
 	// Initialization functions 
-	void initVariables(sf::Vector2u windowSize);
+	void initVariables(sf::RenderWindow* _window);
 
 public:
 	// Constructors / Destructors
-	Car(sf::Vector2u windowSize);
+	Car(sf::RenderWindow* _window);
 	virtual ~Car();
 
 	// Update functions
@@ -31,6 +32,7 @@ public:
 	// Public functions
 	void move(sf::Vector2f _offset);
 	void move(sf::Vector2f _offset, float _dt);
+	void reset();
 
 	// Accessors / Mutators
 	sf::Vector2f getPosition() { return this->sprite.getPosition(); }

@@ -1,5 +1,18 @@
 #include "RotationProcessing.h"
 
+// Private functions
+void RotationProcessing::readCOMfromfile()
+{
+	ifstream file;
+	file.open("config.txt");
+	if (file.is_open()) {
+		getline(file, this->port);
+		file.close();
+	}
+	else
+		cout << "ERROR: Nie udalo sie otworzyc pliku config.txt" << endl;
+}
+
 // LCD Initialization
 void RotationProcessing::initLCDVariables(const float* _dystans, const float* _punkty, const float* _predkosc, const int* _zycia, const bool* _isEnd)
 {
@@ -13,6 +26,8 @@ void RotationProcessing::initLCDVariables(const float* _dystans, const float* _p
 // Constructors / Destructors
 RotationProcessing::RotationProcessing()
 {
+	this->readCOMfromfile();
+
 	char* portC = new char[this->port.length() + 1];
 	strcpy_s(portC, this->port.length() + 1, this->port.c_str());
 	this->STM32 = new SerialPort(portC);

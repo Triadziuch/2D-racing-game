@@ -38,6 +38,7 @@ public:
 
 	void setCollided(bool value) { this->collided = value; }
 	void setCurrentlyCollides(bool value) { this->currently_collides = value; }
+	void setTexture(sf::Texture& _texture) { this->sprite.setTexture(_texture); }
 
 	// Rendering functions
 	void render(sf::RenderTarget& target);

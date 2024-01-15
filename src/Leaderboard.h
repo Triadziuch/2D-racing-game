@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "AssetManager.h"
 
 using namespace std;
 

@@ -49,14 +49,15 @@ private:
 	static constexpr int liczba_typow_dekoracji = 4;
 	static constexpr int liczba_typow_drog = 2;
 
+	bool blokada_punktow;
 	int* zycia;
 	float* mnoznik_predkosci, * mnoznik_punktow, * dystans, * punkty, * predkosc;
 
-	std::vector<std::vector<sf::Texture>> vtexture_dekoracje;
-	sf::Texture texture_dekoracje[liczba_lokacji][liczba_typow_dekoracji];
+	std::vector<std::vector<sf::Texture*>> vtexture_dekoracje;
+	sf::Texture *texture_dekoracje[liczba_lokacji][liczba_typow_dekoracji];
 
-	std::vector<std::vector<sf::Texture>> vtexture_droga;
-	sf::Texture texture_droga[liczba_lokacji][liczba_typow_drog];
+	std::vector<std::vector<sf::Texture*>> vtexture_droga;
+	sf::Texture* texture_droga[liczba_lokacji][liczba_typow_drog];
 
 	std::vector <Droga*> vdroga;
 
@@ -95,6 +96,7 @@ public:
 	void updatePickups(float dt, float movement_offset);
 	void updateNPCar(float dt, float movement_offset);
 	void updateStatistics(float dt, float movement_offset);
+	void updateScenery();
 
 	// Accessors / Mutators
 	sf::FloatRect getMapBorders();
@@ -110,6 +112,7 @@ public:
 	void addSpeedFactor(float value);
 	void setPointsFactor(float value);
 	void addPointsFactor(float value);
+	void setLockPoints(bool value);
 
 	// Rendering functions
 	void render(sf::RenderTarget& target);

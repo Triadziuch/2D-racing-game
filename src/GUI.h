@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 #include <format>
+#include "AssetManager.h"
 
 using namespace std;
 
@@ -26,7 +27,7 @@ private:
 	float padding;
 	float scale;
 
-	sf::Texture texture_serca[2];
+	sf::Texture* texture_serca[2];
 	sf::Sprite* sprite_serca;
 	sf::Font font;
 
