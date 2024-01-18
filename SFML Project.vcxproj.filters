@@ -104,5 +104,8 @@
     <ClInclude Include="src\Menu.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
+    <ClInclude Include="src\Transition.h">
+      <Filter>Pliki nagłówków</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

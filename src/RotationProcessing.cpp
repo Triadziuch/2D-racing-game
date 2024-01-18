@@ -6,6 +6,13 @@ void RotationProcessing::readCOMfromfile()
 	ifstream file;
 	file.open("config.txt");
 	if (file.is_open()) {
+		string temp;
+		getline(file, temp);
+		if (temp == "off")
+			this->using_keyboard_input = true;
+		else
+			this->using_keyboard_input = false;
+
 		getline(file, this->port);
 		file.close();
 	}
@@ -28,30 +35,37 @@ RotationProcessing::RotationProcessing()
 {
 	this->readCOMfromfile();
 
-	char* portC = new char[this->port.length() + 1];
-	strcpy_s(portC, this->port.length() + 1, this->port.c_str());
-	this->STM32 = new SerialPort(portC);
-	delete portC;
+	if(!this->using_keyboard_input) {
+		char* portC = new char[this->port.length() + 1];
+		strcpy_s(portC, this->port.length() + 1, this->port.c_str());
+		this->STM32 = new SerialPort(portC);
+		delete portC;
 
-	if (this->STM32->isConnected())
-		cout << "Connected to " << port << endl;
+		if (this->STM32->isConnected())
+			cout << "Connected to " << port << endl;
+		else
+			cin.get();
+	}
 	else
-		cin.get();
+		this->STM32 = nullptr;
 }
 
 RotationProcessing::~RotationProcessing()
 {
 	delete STM32;
+	this->STM32 = nullptr;
 }
 
 // Update functions
 void RotationProcessing::update()
 {
-	this->updateReceive();
+	if(!this->using_keyboard_input) {
+		this->updateReceive();
 
-	if (!this->message_iter)
-		this->updateTransmitMessage();
-	this->updateTransmit();
+		if (!this->message_iter)
+			this->updateTransmitMessage();
+		this->updateTransmit();
+	}
 }
 
 bool RotationProcessing::updateReceive()

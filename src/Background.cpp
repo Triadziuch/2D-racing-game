@@ -14,7 +14,8 @@ void Background::initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, 
 	this->predkosc = _predkosc;
 	this->zycia = _zycia;
 	this->blokada_punktow = false;
-
+	this->started_transition = false;
+	this->updated_scenery = false;
 
 	// Texture vectors initialization
 	this->vtexture_dekoracje.resize(this->liczba_lokacji);
@@ -86,7 +87,7 @@ float Background::getNajwyzszaDroga()
 
 void Background::dodajDroge(float wysokosc)
 {
-	if ((rand() % 100 + 1  < 30) && *this->aktualna_lokacja != 2) 
+	if ((rand() % 100 + 1  < 3) && *this->aktualna_lokacja != 2) 
 		this->vdroga.push_back(new Droga(this->rozmiar_tankowanie, this->scale, { this->start_dekoracje, wysokosc }, this->vtexture_dekoracje[*this->aktualna_lokacja], this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_tankowanie, this->vtexture_droga[*this->aktualna_lokacja][1]));
 	else
 		this->vdroga.push_back(new Droga(this->rozmiar_droga, this->scale, { this->start_dekoracje, wysokosc }, this->vtexture_dekoracje[*this->aktualna_lokacja], this->liczba_typow_dekoracji, this->rozmieszenie_dekoracji_droga, this->vtexture_droga[*this->aktualna_lokacja][0]));
@@ -193,7 +194,7 @@ void Background::update(float dt, float movement_offset)
 	this->updatePickups(dt, movement_offset);
 	this->updateNPCar(dt, movement_offset);
 	this->updateStatistics(dt, movement_offset);
-	this->updateScenery();
+	this->updateScenery(dt);
 }
 
 void Background::updateRoad(float dt, float movement_offset)
@@ -226,57 +227,71 @@ void Background::updateStatistics(float dt, float movement_offset)
 {
 	float przesuniecie_mapy = dt * movement_offset * *this->mnoznik_predkosci;
 	if (!this->blokada_punktow)
-		*this->punkty += przesuniecie_mapy * *this->mnoznik_punktow * 10.f;
+		*this->punkty += przesuniecie_mapy * *this->mnoznik_punktow;
 	*this->dystans += przesuniecie_mapy / 1000.f;
 }
 
-void Background::updateScenery()
+void Background::updateScenery(float dt)
 {
-	bool zmieniono = false;
 	int dist = static_cast<int>(*this->dystans) % 20;
 	
 	if (dist >= 15 && dist < 20 && *this->aktualna_lokacja == 2) {
 		*this->aktualna_lokacja = 3;
-		zmieniono = true;
+		this->started_transition = true;
 	}	
 	else if (dist >= 10 && dist < 15 && *this->aktualna_lokacja == 1) {
 		*this->aktualna_lokacja = 2;
-		zmieniono = true;
+		this->started_transition = true;
 	}	
 	else if (dist >= 5 && dist < 10 && *this->aktualna_lokacja == 0) {
 		*this->aktualna_lokacja = 1;
-		zmieniono = true;
+		this->started_transition = true;
 	}
 	else if (dist < 5 && *this->aktualna_lokacja == 3) {
 		*this->aktualna_lokacja = 0;
-		zmieniono = true;
+		this->started_transition = true;
 	}
 		
-	if (zmieniono) {
-		for (const auto& droga : this->vdroga)
-			droga->setTexture(this->vtexture_dekoracje[*this->aktualna_lokacja], this->vtexture_droga[*this->aktualna_lokacja][droga->getRoadType()]);
+	if (this->started_transition) {
+		if (this->transition == nullptr)
+			this->transition = new Transition(this->getMapBorders());
+		this->transition->move(dt * -2500.f);
 
-		if (*this->aktualna_lokacja == 3) {
-			for (const auto& pickup : this->vpickups) {
-				std::string type = pickup->getType();
-				int texture_id{};
+		if (this->transition->getCoversScreen() && !this->updated_scenery) {
+			for (const auto& droga : this->vdroga)
+				droga->setTexture(this->vtexture_dekoracje[*this->aktualna_lokacja], this->vtexture_droga[*this->aktualna_lokacja][droga->getRoadType()]);
 
-				if (type == "dziura")
-					texture_id = 0;
-				else if (type == "lod")
-					texture_id = 1;
-				else if (type == "pekniecie")
-					texture_id = 2;
-				else if (type == "przyspieszenie")
-					texture_id = 3;
-				else if (type == "smar")
-					texture_id = 4;
-				else
-					texture_id = -1;
+			if (*this->aktualna_lokacja == 3) {
+				for (const auto& pickup : this->vpickups) {
+					std::string type = pickup->getType();
+					int texture_id{};
 
-				if (texture_id != -1)
-					pickup->setTexture(this->texture_pickups[texture_id]);
+					if (type == "dziura")
+						texture_id = 0;
+					else if (type == "lod")
+						texture_id = 1;
+					else if (type == "pekniecie")
+						texture_id = 2;
+					else if (type == "przyspieszenie")
+						texture_id = 3;
+					else if (type == "smar")
+						texture_id = 4;
+					else
+						texture_id = -1;
+
+					if (texture_id != -1)
+						pickup->setTexture(this->texture_pickups[texture_id]);
+				}
 			}
+
+			this->updated_scenery = true;
+		}
+		
+		if (this->transition->getIsDone()) {
+			this->started_transition = false;
+			this->updated_scenery = false;
+			delete this->transition;
+			this->transition = nullptr;
 		}
 	}
 }
@@ -374,4 +389,10 @@ void Background::render(sf::RenderTarget& target)
 		pickup->render(target);
 
 	this->NPCar->render(target);
+}
+
+void Background::renderTransition(sf::RenderTarget& target)
+{
+	if(this->started_transition && this->transition != nullptr)
+		this->transition->render(target);
 }

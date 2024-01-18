@@ -52,6 +52,7 @@
     <ClInclude Include="src\Pickup.h" />
     <ClInclude Include="src\RotationProcessing.h" />
     <ClInclude Include="src\SerialPort.h" />
+    <ClInclude Include="src\Transition.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

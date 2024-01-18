@@ -1,4 +1,7 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -13,6 +16,7 @@ private:
 	char		 inputData[INPUT_DATA_BYTES];
 	string		 buffer{};
 	double		 rotation_LR[2]{}, rotation_FB[2]{};
+	bool		 using_keyboard_input;
 	string		 port = "COM4";
 	SerialPort	 *STM32;
 	size_t		 message_iter{};
@@ -39,10 +43,12 @@ public:
 	bool updateReceive();
 	void updateTransmitMessage();
 	void updateTransmit();
+	void updatePollEvents();
 	
 
 	// Accessors / Mutators
 	bool getIsConnected()	 { return this->STM32->isConnected(); };
+	bool getIsMouse()		 { return this->using_keyboard_input; }
 
 	const double getNewLR()  { return this->rotation_LR[1]; }
 	const double getNewFB()  { return this->rotation_FB[1]; }

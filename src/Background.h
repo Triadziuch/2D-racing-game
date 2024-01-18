@@ -4,6 +4,7 @@
 #include "NPCarContainer.h"
 #include "Droga.h"
 #include "Pickup.h"
+#include "Transition.h"
 
 class Background
 {
@@ -70,6 +71,9 @@ private:
 
 	NPCarContainer* NPCar;
 
+	bool started_transition, updated_scenery;
+	Transition *transition;
+
 	// Initialization functions 
 	void initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, float* _dystans, float* _mnoznik_predkosci, float* _mnoznik_punktow, float* _punkty, float* _predkosc, int* _zycia);
 
@@ -96,7 +100,7 @@ public:
 	void updatePickups(float dt, float movement_offset);
 	void updateNPCar(float dt, float movement_offset);
 	void updateStatistics(float dt, float movement_offset);
-	void updateScenery();
+	void updateScenery(float dt);
 
 	// Accessors / Mutators
 	sf::FloatRect getMapBorders();
@@ -116,4 +120,5 @@ public:
 
 	// Rendering functions
 	void render(sf::RenderTarget& target);
+	void renderTransition(sf::RenderTarget& target);
 };

@@ -31,11 +31,13 @@ void Loop::initVariables()
 	this->text_test.setFillColor(sf::Color::White);
 	this->text_test.setPosition({ 20.f, 20.f });
 
-	this->car = new Car(this->window);
+	this->car = new Car(this->window, &this->isMenu);
 	this->car->getRP()->initLCDVariables(&this->dystans, &this->punkty, &this->predkosc, &this->zycia, &this->isEnd);
 	this->background = new Background(this->window->getSize(), &this->aktualna_lokacja, &this->dystans, &this->mnoznik_predkosci, &this->mnoznik_puntkow, &this->punkty, &this->predkosc, &this->zycia);
 	this->collisionProcessing = new CollisionProcessing(this->car, this->background, this->background->getMapBorders(), this->background->getRoadBorders(), &this->aktualna_lokacja, &this->zycia);
 	this->gui = new GUI({ static_cast<float>(this->window->getSize().x), static_cast<float>(this->window->getSize().y) }, this->background->getMapBorders(), this->nazwy_lokacji,  &this->aktualna_lokacja, &this->punkty, &this->mnoznik_puntkow, &this->dystans, &this->predkosc, &this->zycia_max, &this->zycia, &this->isEnd);
+
+	this->window->setMouseCursorVisible(false);
 }
 
 void Loop::initAssets()
@@ -90,7 +92,7 @@ void Loop::initNewGame()
 	if (this->car != nullptr)
 		this->car->reset();
 	else {
-		this->car = new Car(this->window);
+		this->car = new Car(this->window, &this->isMenu);
 		this->car->getRP()->initLCDVariables(&this->dystans, &this->punkty, &this->predkosc, &this->zycia, &this->isEnd);
 	}
 	this->background = new Background(this->window->getSize(), &this->aktualna_lokacja, &this->dystans, &this->mnoznik_predkosci, &this->mnoznik_puntkow, &this->punkty, &this->predkosc, &this->zycia);
@@ -231,6 +233,8 @@ void Loop::render() {
 	this->car->render(*this->window);
 	this->gui->render(*this->window);
 	this->window->draw(this->text_test);
+
+	this->background->renderTransition(*this->window);
 
 	// Displaying frame
 	this->window->display();

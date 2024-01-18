@@ -31,8 +31,6 @@ void Droga::initVariables(const sf::Vector2i _rozmiar, float _scale, sf::Vector2
 	this->sprite_droga.setTexture(*_texture_droga);
 	this->sprite_droga.setScale({ this->scale, this->scale });
 	this->sprite_droga.setPosition(_start_dekoracje.x, _start_dekoracje.y - this->sprite_dekoracje[0][0].getGlobalBounds().width * this->rozmiar.y);
-
-	printf("Rozmiary: %d, %d", this->sprite_droga.getTexture()->getSize().x, this->sprite_droga.getTexture()->getSize().y);
 }
 
 // Private functions

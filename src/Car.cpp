@@ -1,9 +1,10 @@
 #include "Car.h"
 
 // Initialization functions 
-void Car::initVariables(sf::RenderWindow* _window)
+void Car::initVariables(sf::RenderWindow* _window, bool* _isMenu)
 {
 	this->window = _window;
+	this->isMenu = _isMenu;
 	this->speed = 30.f;
 	this->scale = 4.f;
 	this->sprite.setTexture(AssetManager::GetTexture("Textures/Samochody/car4.png"));
@@ -11,28 +12,39 @@ void Car::initVariables(sf::RenderWindow* _window)
 	this->sprite.setScale({ this->scale, this->scale });
 	this->sprite.setPosition(static_cast<sf::Vector2f>(this->window->getSize() / 2u));
 	this->speed_factor = 1.f;
+
+	this->RP = new RotationProcessing();
+	this->using_mouse = this->RP->getIsMouse();
 }
 
 // Constructors / Destructors
-Car::Car(sf::RenderWindow* _window)
+Car::Car(sf::RenderWindow* _window, bool* _isMenu)
 {
-	this->initVariables(_window);
+	this->initVariables(_window, _isMenu);
 }
 
 Car::~Car()
 {
+	this->RP->~RotationProcessing();
+	this->RP = nullptr;
 }
 
 // Update functions
 void Car::update(float dt)
 {
-	this->RP.update();
-	this->updateMovement(dt);
+	if (!this->using_mouse) {
+		this->RP->update();
+		this->updateMovement(dt);
+		return;
+	}
+	else {
+		this->updateMovementMouse();
+	}
 }
 
 sf::Vector2f Car::updateRotation()
 {
-	sf::Vector2f rotation = { static_cast<float>(this->RP.getNewLR()), static_cast<float>(this->RP.getNewFB()) };
+	sf::Vector2f rotation = { static_cast<float>(this->RP->getNewLR()), static_cast<float>(this->RP->getNewFB()) };
 
 	float kierunek = signbit(rotation.x) ? -1.f : 1.f;
 	if (abs(rotation.x) < 2.f) {
@@ -57,6 +69,12 @@ void Car::updateMovement(float dt)
 {
 	sf::Vector2f rotation = this->updateRotation();
 	this->sprite.move({ rotation.x * dt * this->speed * this->speed_factor, rotation.y * dt * this->speed * this->speed_factor });
+}
+
+void Car::updateMovementMouse()
+{
+	sf::Vector2f mouse_pos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*this->window));
+	this->sprite.setPosition(mouse_pos);
 }
 
 // Public functions
