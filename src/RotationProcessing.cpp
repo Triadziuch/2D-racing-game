@@ -21,20 +21,20 @@ void RotationProcessing::readCOMfromfile()
 }
 
 // LCD Initialization
-void RotationProcessing::initLCDVariables(const float* _dystans, const float* _punkty, const float* _predkosc, const int* _zycia, const bool* _isEnd)
+void RotationProcessing::initLCDVariables(const float* _dystans, const float* _punkty, const float* _predkosc, const int* _zycia, const bool* _isPlaying)
 {
 	this->dystans = _dystans;
 	this->punkty = _punkty;
 	this->predkosc = _predkosc;
 	this->zycia = _zycia;
-	this->isEnd = _isEnd;
+	this->isPlaying = _isPlaying;
 }
 
 // Constructors / Destructors
 RotationProcessing::RotationProcessing()
 {
 	this->readCOMfromfile();
-
+	
 	if(!this->using_keyboard_input) {
 		char* portC = new char[this->port.length() + 1];
 		strcpy_s(portC, this->port.length() + 1, this->port.c_str());
@@ -105,7 +105,7 @@ void RotationProcessing::updateTransmitMessage()
 	this->message = to_string(static_cast<int>(*this->dystans)) + ' ' +
 					to_string(static_cast<int>(*this->punkty)) + ' ' +
 					to_string(static_cast<int>(*this->predkosc)) + ' ' +
-					to_string(*this->zycia) + ' ' + to_string(*this->isEnd) + '\n';
+					to_string(*this->zycia) + ' ' + to_string(*this->isPlaying) + '\n';
 	cout << "DEBUG: Wysylany do STM C-string: \"" << this->message.substr(0, this->message.length() - 1) << "\\n\"" << endl;
 }
 

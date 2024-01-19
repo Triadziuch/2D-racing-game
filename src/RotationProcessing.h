@@ -25,14 +25,14 @@ private:
 	// LCD Variables
 	const float* dystans, * punkty, * predkosc;
 	const int* zycia;
-	const bool* isEnd;
+	const bool* isPlaying;
 
 	// Private functions
 	void readCOMfromfile();
 	
 public:
 	// LCD Initialization
-	void initLCDVariables(const float* _dystans, const float* _punkty, const float* _predkosc, const int* _zycia, const bool* _isEnd);
+	void initLCDVariables(const float* _dystans, const float* _punkty, const float* _predkosc, const int* _zycia, const bool* _isPlaying);
 
 	// Constructors / Destructors
 	RotationProcessing();

@@ -73,7 +73,7 @@ void Background::initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, 
 	this->max_smar = 1;
 
 	this->updateRoad(0.f, 0.f);
-	this->NPCar = new NPCarContainer(this->getCarSpawnLeft(), this->getCarSpawnRight(), this->windowSize, this->mnoznik_predkosci);
+	this->NPCar = new NPCarContainer(this->getCarSpawnLeft(), this->getCarSpawnRight(), this->windowSize, this->mnoznik_predkosci, &this->started_transition);
 }
 
 // Private road functions
@@ -227,7 +227,7 @@ void Background::updateStatistics(float dt, float movement_offset)
 {
 	float przesuniecie_mapy = dt * movement_offset * *this->mnoznik_predkosci;
 	if (!this->blokada_punktow)
-		*this->punkty += przesuniecie_mapy * *this->mnoznik_punktow;
+		*this->punkty += przesuniecie_mapy * *this->mnoznik_punktow * 100;
 	*this->dystans += przesuniecie_mapy / 1000.f;
 }
 

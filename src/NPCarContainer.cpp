@@ -1,12 +1,13 @@
 #include "NPCarContainer.h"
 
 // Initialization functions 
-void NPCarContainer::initVariables(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize, float* _speed_multiplier)
+void NPCarContainer::initVariables(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize, float* _speed_multiplier, bool* _started_transition)
 {
 	this->car_spawn_left	 = _car_spawn_left;
 	this->car_spawn_right	 = _car_spawn_right;
 	this->windowSize		 = _windowSize;
 	this->speed_multiplier	 = _speed_multiplier;
+	this->started_transition = _started_transition;
 
 	this->explosion_animation_filename = "Textures/Explosion/explosion-512.png";
 }
@@ -14,7 +15,7 @@ void NPCarContainer::initVariables(float _car_spawn_left, float _car_spawn_right
 // Private functions
 void NPCarContainer::spawn()
 {
-	if ((rand() % 50 == 0 && this->vCars.size() == 0) || (rand() % 150 == 0 && this->vCars.size() < static_cast<size_t>(this->max_cars))) {
+	if (((rand() % 50 == 0 && this->vCars.size() == 0) || (rand() % 150 == 0 && this->vCars.size() < static_cast<size_t>(this->max_cars))) && !*this->started_transition) {
 		if (rand() % 2 == 0 && this->last_spawn != 'R') {
 			this->last_spawn = 'R';
 			this->vCars.push_back(new NPCar(AssetManager::GetTexture("Textures/Samochody/car" + std::to_string(rand() % this->car_number) + ".png"), static_cast<float>(rand() % 300 + 200), {this->car_spawn_right, static_cast<float>(this->windowSize.y) + 100.f}, -1, this->speed_multiplier));
@@ -46,10 +47,10 @@ void NPCarContainer::delete_out_of_border()
 }
 
 // Constructors / Destructors
-NPCarContainer::NPCarContainer(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize, float *_speed_multiplier)
+NPCarContainer::NPCarContainer(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize, float *_speed_multiplier, bool* _started_transition)
 {
 	srand(static_cast<unsigned>(time(nullptr)));
-	this->initVariables(_car_spawn_left, _car_spawn_right, _windowSize, _speed_multiplier);
+	this->initVariables(_car_spawn_left, _car_spawn_right, _windowSize, _speed_multiplier, _started_transition);
 }
 
 NPCarContainer::~NPCarContainer()

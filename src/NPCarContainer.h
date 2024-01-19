@@ -14,6 +14,7 @@ private:
 	float					 car_spawn_left, car_spawn_right;
 	char					 last_spawn{};
 	float*					 speed_multiplier;
+	bool*					 started_transition;
 
 	// Animation variables
 	std::vector<sf::Sprite*> vExplosionSprite;
@@ -21,7 +22,7 @@ private:
 	std::string				 explosion_animation_filename;
 
 	// Initialization functions 
-	void initVariables(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize, float* _speed_multiplier);
+	void initVariables(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize, float* _speed_multiplier, bool* _started_transition);
 
 	// Private functions
 	void spawn();
@@ -30,7 +31,7 @@ private:
 
 public:
 	// Constructors / Destructors
-	NPCarContainer(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize, float* _speed_multiplier);
+	NPCarContainer(float _car_spawn_left, float _car_spawn_right, sf::Vector2u _windowSize, float* _speed_multiplier, bool* _started_transition);
 	virtual ~NPCarContainer();
 
 	// Update functions
