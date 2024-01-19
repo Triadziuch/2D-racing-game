@@ -73,7 +73,7 @@ void Background::initVariables(sf::Vector2u windowSize, int* _aktualna_lokacja, 
 	this->max_smar = 1;
 
 	this->updateRoad(0.f, 0.f);
-	this->NPCar = new NPCarContainer(this->getCarSpawnLeft(), this->getCarSpawnRight(), this->windowSize, this->mnoznik_predkosci);
+	this->NPCar = new NPCarContainer(this->getCarSpawnLeft(), this->getCarSpawnRight(), this->windowSize, this->mnoznik_predkosci, &this->started_transition);
 }
 
 // Private road functions

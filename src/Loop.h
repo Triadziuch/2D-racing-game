@@ -22,7 +22,7 @@ private:
 	sf::RenderWindow* window;
 
 	// is variables
-	bool isEnd, isMenu;
+	bool isEnd, isMenu, isPlaying;
 
 	// Clock variables
 	sf::Clock dt_clock;

@@ -14,6 +14,8 @@ void Loop::initVariables()
 
 	this->isEnd = false;
 	this->isMenu = true;
+	this->isPlaying = false;
+
 	this->color_background = sf::Color(250, 248, 239);
 	this->background_moving_speed = 300.f;
 
@@ -32,7 +34,7 @@ void Loop::initVariables()
 	this->text_test.setPosition({ 20.f, 20.f });
 
 	this->car = new Car(this->window, &this->isMenu);
-	this->car->getRP()->initLCDVariables(&this->dystans, &this->punkty, &this->predkosc, &this->zycia, &this->isEnd);
+	this->car->getRP()->initLCDVariables(&this->dystans, &this->punkty, &this->predkosc, &this->zycia, &this->isPlaying);
 	this->background = new Background(this->window->getSize(), &this->aktualna_lokacja, &this->dystans, &this->mnoznik_predkosci, &this->mnoznik_puntkow, &this->punkty, &this->predkosc, &this->zycia);
 	this->collisionProcessing = new CollisionProcessing(this->car, this->background, this->background->getMapBorders(), this->background->getRoadBorders(), &this->aktualna_lokacja, &this->zycia);
 	this->gui = new GUI({ static_cast<float>(this->window->getSize().x), static_cast<float>(this->window->getSize().y) }, this->background->getMapBorders(), this->nazwy_lokacji,  &this->aktualna_lokacja, &this->punkty, &this->mnoznik_puntkow, &this->dystans, &this->predkosc, &this->zycia_max, &this->zycia, &this->isEnd);
@@ -80,6 +82,7 @@ void Loop::initNewGame()
 {
 	this->isEnd = false;
 	this->isMenu = false;
+	this->isPlaying = true;
 
 	this->aktualna_lokacja = 0;
 	this->zycia = 5;
@@ -93,7 +96,7 @@ void Loop::initNewGame()
 		this->car->reset();
 	else {
 		this->car = new Car(this->window, &this->isMenu);
-		this->car->getRP()->initLCDVariables(&this->dystans, &this->punkty, &this->predkosc, &this->zycia, &this->isEnd);
+		this->car->getRP()->initLCDVariables(&this->dystans, &this->punkty, &this->predkosc, &this->zycia, &this->isPlaying);
 	}
 	this->background = new Background(this->window->getSize(), &this->aktualna_lokacja, &this->dystans, &this->mnoznik_predkosci, &this->mnoznik_puntkow, &this->punkty, &this->predkosc, &this->zycia);
 	this->collisionProcessing = new CollisionProcessing(this->car, this->background, this->background->getMapBorders(), this->background->getRoadBorders(), &this->aktualna_lokacja, &this->zycia);
@@ -184,6 +187,7 @@ void Loop::updateLeaderboard()
 	this->leaderboard = new Leaderboard(this->window, &this->punkty, &this->isEnd);
 	while (this->isEnd) {
 		this->leaderboard->update();
+		this->car->getRP()->update();
 		this->leaderboard->render(*this->window);
 		this->dt = dt_clock.restart().asSeconds();
 	}
@@ -195,7 +199,9 @@ void Loop::updateLeaderboard()
 void Loop::updateGameOver()
 {
 	if (this->zycia <= 0) {
+
 		this->isEnd = true;
+		this->isPlaying = false;
 		delete this->background;
 		this->background = nullptr;
 		delete this->collisionProcessing;
