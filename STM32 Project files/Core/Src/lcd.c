@@ -8,7 +8,7 @@ void Delay(uint32_t nCount)
 }
 void lcd_delay(void)
 {
-	Delay(200);
+	Delay(10);
 }
 
 void lcd_cmd(char out_char)
@@ -139,7 +139,7 @@ void lcd_gotoxy(unsigned char row, unsigned char column)
 	{
 		lcd_cmd(0xC0 + (column - 1));
 	}
-    HAL_Delay(5);
+    HAL_Delay(2);
 
 }
 
@@ -153,12 +153,12 @@ void lcd_print(unsigned char row, unsigned char column, char *out_char)
 {
 	lcd_gotoxy(row, column);
 	lcd_out_cp(out_char);
-    HAL_Delay(5);
+    HAL_Delay(2);
 }
 void lcd_clear(void) {
 
 	lcd_cmd(_CLEAR);
-    HAL_Delay(5);
+    HAL_Delay(2);
 
 }
 void lcd_line1(void) {

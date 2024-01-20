@@ -31,18 +31,6 @@ extern "C" {
 /* Exported functions --------------------------------------------------------*/
 void MX_MEMS_Init(void);
 void MX_MEMS_Process(void);
-int get_pomiar_elapsed_time_us(void);
-int get_pomiar_time_stamp(void);
-int get_pomiar_gettick(void);
-double *get_pomiar_gyro(void);
-double *get_pomiar_acc(void);
-double *get_pomiar_mag(void);
-double *get_pomiar_quaternion(void);
-double *get_pomiar_rotation(void);
-double *get_pomiar_gravity(void);
-double *get_pomiar_linear_acceleration(void);
-double get_pomiar_heading(void);
-double get_pomiar_headingErr(void);
 
 #ifdef __cplusplus
 }
