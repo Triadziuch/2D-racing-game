@@ -227,7 +227,7 @@ void Background::updateStatistics(float dt, float movement_offset)
 {
 	float przesuniecie_mapy = dt * movement_offset * *this->mnoznik_predkosci;
 	if (!this->blokada_punktow)
-		*this->punkty += przesuniecie_mapy * *this->mnoznik_punktow * 100;
+		*this->punkty += przesuniecie_mapy * *this->mnoznik_punktow;
 	*this->dystans += przesuniecie_mapy / 1000.f;
 }
 

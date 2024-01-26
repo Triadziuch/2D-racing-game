@@ -8,7 +8,7 @@ void Leaderboard::initVariables(sf::RenderWindow* _window, float* _points, bool*
 	this->filename = "leaderboard.txt";
 	this->isEnd = _isEnd;
 
-	this->font = AssetManager::GetFont("Fonts/Pixel.ttf");
+	this->font = AssetManager::GetFont("Textures/Pixel.ttf");
 	this->font_size = 32u;
 
 	fstream file;

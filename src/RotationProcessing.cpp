@@ -22,14 +22,14 @@ void RotationProcessing::readCOMfromfile()
 
 // LCD Initialization
 void RotationProcessing::initLCDVariables(const float* _dystans, const float* _punkty,
-										  const float* _predkosc, const int* _zycia,
-										  const bool* _isPlaying)
+	const float* _predkosc, const int* _zycia,
+	const bool* _isPlaying)
 {
-	this->dystans	 = _dystans;
-	this->punkty	 = _punkty;
-	this->predkosc   = _predkosc;
-	this->zycia		 = _zycia;
-	this->isPlaying	 = _isPlaying;
+	this->dystans = _dystans;
+	this->punkty = _punkty;
+	this->predkosc = _predkosc;
+	this->zycia = _zycia;
+	this->isPlaying = _isPlaying;
 }
 
 // Constructors / Destructors
@@ -108,7 +108,6 @@ void RotationProcessing::updateTransmitMessage()
 					to_string(static_cast<int>(*this->punkty)) + ' ' +
 					to_string(static_cast<int>(*this->predkosc)) + ' ' +
 					to_string(*this->zycia) + ' ' + to_string(*this->isPlaying) + '\n';
-	cout << "DEBUG: Wysylany do STM C-string: \"" << this->message.substr(0, this->message.length() - 1) << "\\n\"" << endl;
 }
 
 void RotationProcessing::updateTransmit()

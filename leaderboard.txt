@@ -3,8 +3,8 @@ Tom 92000
 Jenna 91535
 Grace 89125
 Phil 88910
-Phil 75250
-Dida 59681
+Dida 69681
+Phil 55250
 Jenna 58170
 Grace 57441
 Spark 46260

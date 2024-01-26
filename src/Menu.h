@@ -26,7 +26,7 @@ private:
 	sf::Text*	 text_menu;
 	string*		 s_text_menu;
 
-	sf::Text	 text_tworcy[3];
+	sf::Text	 text_tworcy;
 
 	// Initialization functions 
 	void initVariables(sf::RenderWindow* _window, bool* _isMenu);

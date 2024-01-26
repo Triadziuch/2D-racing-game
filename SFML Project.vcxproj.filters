@@ -107,5 +107,13 @@
     <ClInclude Include="src\Transition.h">
       <Filter>Pliki nagłówków</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SFML Project.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\Samochody\car4.png" />
+    <Image Include="Textures\icon.ico" />
   </ItemGroup>
 </Project>

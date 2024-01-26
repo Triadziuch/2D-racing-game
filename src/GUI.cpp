@@ -28,7 +28,7 @@ void GUI::initVariables(sf::Vector2f _windowSize, sf::FloatRect _roadBorders, co
 
 	this->sprite_serca = new sf::Sprite[*this->zycia_max];
 
-	this->font = AssetManager::GetFont("Fonts/Pixel.ttf");
+	this->font = AssetManager::GetFont("Textures/Pixel.ttf");
 
 	this->s_mapa = "Mapa: ";
 	this->s_punkty = "Punkty: ";

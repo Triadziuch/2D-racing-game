@@ -80,12 +80,12 @@ void CollisionProcessing::player_pickups()
 						pickup->setCurrentlyCollides(true);
 				}
 			}
-			if (pickup->getCurrentlyCollides()) {
+			else{
 				if (this->car->getFloatRect().intersects(pickup->getFloatRect())) {
 					if (pickup->getType() == "pekniecie") {
 						this->car->setSpeedFactor(0.25f);
 					}
-					else if (pickup->getType() == "lod" || pickup->getType() == "smar") {
+					if (pickup->getType() == "lod" || pickup->getType() == "smar") {
 						this->car->setSpeedFactor(1.5f);
 						this->car->move({ 1.f * pickup->getKierunekZjezdzania(), 0.f });
 					}
@@ -95,6 +95,7 @@ void CollisionProcessing::player_pickups()
 						this->car->setSpeedFactor(1.f);
 						this->background->addSpeedFactor(-0.02f);
 						this->background->addPointsFactor(-0.01f);
+						pickup->setCollided(true);
 					}
 					else if (pickup->getType() == "lod" || pickup->getType() == "smar") {
 						this->car->setSpeedFactor(1.f);

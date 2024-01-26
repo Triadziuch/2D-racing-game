@@ -13,7 +13,7 @@ void Menu::initVariables(sf::RenderWindow* _window, bool *_isMenu)
 	this->pb_sprite.setTexture(AssetManager::GetTexture("Textures/Menu/PB.png"));
 	this->pb_sprite.setPosition({ (this->window->getSize().x - this->pb_sprite.getGlobalBounds().width) / 2.f, this->window->getSize().y - this->pb_sprite.getGlobalBounds().height * 1.5f });
 
-	this->font = &AssetManager::GetFont("Fonts/Pixel.ttf");
+	this->font = &AssetManager::GetFont("Textures/Pixel.ttf");
 	this->font_size = 32u;
 	this->s_text_menu = new string[this->liczba_opcji]{ "Zwykly", "Czasowy", "Leaderboard", "Tworcy" };
 	this->text_menu = new sf::Text[this->liczba_opcji];
@@ -37,23 +37,23 @@ void Menu::initVariables(sf::RenderWindow* _window, bool *_isMenu)
 	this->cursor_sprite.setRotation(90.f);
 	this->cursor_sprite.setPosition({ this->text_menu[this->wybrana_opcja].getGlobalBounds().left - this->cursor_sprite.getGlobalBounds().width, this->text_menu[this->wybrana_opcja].getGlobalBounds().top + this->text_menu[this->wybrana_opcja].getGlobalBounds().height / 2.f - this->cursor_sprite.getGlobalBounds().height / 2.f });
 
-	this->text_tworcy[1].setFont(*this->font);
-	this->text_tworcy[1].setCharacterSize(this->font_size);
-	this->text_tworcy[1].setFillColor(sf::Color::White);
-	this->text_tworcy[1].setString("Jakub Kirylowicz");
-	this->text_tworcy[1].setPosition({ this->window->getSize().x / 2.f - this->text_tworcy[1].getGlobalBounds().width / 2.f, this->window->getSize().y / 2.f - this->text_tworcy[1].getGlobalBounds().height / 2.f });
+	this->text_tworcy.setFont(*this->font);
+	this->text_tworcy.setCharacterSize(this->font_size);
+	this->text_tworcy.setFillColor(sf::Color::White);
+	this->text_tworcy.setString("Jakub Kirylowicz");
+	this->text_tworcy.setPosition({ this->window->getSize().x / 2.f - this->text_tworcy.getGlobalBounds().width / 2.f, this->window->getSize().y / 2.f - this->text_tworcy.getGlobalBounds().height / 2.f });
 
-	this->text_tworcy[0].setFont(*this->font);
-	this->text_tworcy[0].setCharacterSize(this->font_size);
-	this->text_tworcy[0].setFillColor(sf::Color::White);
-	this->text_tworcy[0].setString("Jakub Kazimiruk");
-	this->text_tworcy[0].setPosition({ this->window->getSize().x / 2.f - this->text_tworcy[0].getGlobalBounds().width / 2.f, this->text_tworcy[1].getGlobalBounds().top - this->text_tworcy[0].getGlobalBounds().height * 3.f});
+	/*this->text_tworcy.setFont(*this->font);
+	this->text_tworcy.setCharacterSize(this->font_size);
+	this->text_tworcy.setFillColor(sf::Color::White);
+	this->text_tworcy.setString("Jakub Kazimiruk");
+	this->text_tworcy.setPosition({ this->window->getSize().x / 2.f - this->text_tworcy[0].getGlobalBounds().width / 2.f, this->text_tworcy[1].getGlobalBounds().top - this->text_tworcy[0].getGlobalBounds().height * 3.f});*/
 
-	this->text_tworcy[2].setFont(*this->font);
+	/*this->text_tworcy[2].setFont(*this->font);
 	this->text_tworcy[2].setCharacterSize(this->font_size);
 	this->text_tworcy[2].setFillColor(sf::Color::White);
 	this->text_tworcy[2].setString("Lukasz Kotowski");
-	this->text_tworcy[2].setPosition({ this->window->getSize().x / 2.f - this->text_tworcy[2].getGlobalBounds().width / 2.f, this->text_tworcy[1].getGlobalBounds().top + this->text_tworcy[2].getGlobalBounds().height * 2.8f });
+	this->text_tworcy[2].setPosition({ this->window->getSize().x / 2.f - this->text_tworcy[2].getGlobalBounds().width / 2.f, this->text_tworcy[1].getGlobalBounds().top + this->text_tworcy[2].getGlobalBounds().height * 2.8f });*/
 }
 
 Menu::Menu(sf::RenderWindow* _window, bool* _isMenu)
@@ -128,8 +128,7 @@ void Menu::render()
 		this->window->draw(this->cursor_sprite);
 	}
 	else {
-		for (size_t i = 0; i < 3; ++i)
-			this->window->draw(this->text_tworcy[i]);
+		this->window->draw(this->text_tworcy);
 	}
 
 	this->window->display();

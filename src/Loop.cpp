@@ -45,7 +45,7 @@ void Loop::initVariables()
 void Loop::initAssets()
 {
 	// Load fonts
-	this->font = AssetManager::GetFont("Fonts/Pixel.ttf");
+	this->font = AssetManager::GetFont("Textures/Pixel.ttf");
 
 	// Load menu textures
 	AssetManager::GetTexture("Textures/Menu/Logo.png");
