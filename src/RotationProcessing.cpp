@@ -21,15 +21,13 @@ void RotationProcessing::readCOMfromfile()
 }
 
 // LCD Initialization
-void RotationProcessing::initLCDVariables(const float* _dystans, const float* _punkty,
-										  const float* _predkosc, const int* _zycia,
-										  const bool* _isPlaying)
+void RotationProcessing::initLCDVariables(const float* _dystans, const float* _punkty, const float* _predkosc, const int* _zycia, const bool* _isEnd)
 {
-	this->dystans	 = _dystans;
-	this->punkty	 = _punkty;
-	this->predkosc   = _predkosc;
-	this->zycia		 = _zycia;
-	this->isPlaying	 = _isPlaying;
+	this->dystans = _dystans;
+	this->punkty = _punkty;
+	this->predkosc = _predkosc;
+	this->zycia = _zycia;
+	this->isEnd = _isEnd;
 }
 
 // Constructors / Destructors
