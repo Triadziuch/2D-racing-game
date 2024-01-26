@@ -10,10 +10,10 @@
 During the gameplay, the player controls a car moving along the road and must dodge various obstacles. These obstacles include other cars that explode upon collision, cracks that reduce steering control and speed, oil spills and ice patches that cause skidding, and potholes that reset the player's speed. To increase speed and the points multiplier, the player can also drive over speed boost pickups.
 
 After covering a specified distance, there is a smooth transition to different maps. There are four distinct maps:
-Forest
-Desert
-Bridge
-Arctic
+* Forest
+* Desert
+* Bridge
+* Arctic
 
 ## Running the Game:
 To run the game, download the appropriate release and execute the .exe file. By default, the game is controlled using the mouse, but there is also an option to run the game controlled by a microcontroller, provided the appropriate program is uploaded [revelant STM32L476RG rotation transmitting repository](). To enable the game to use the microcontroller, change the first line of the config.txt file to "on".
