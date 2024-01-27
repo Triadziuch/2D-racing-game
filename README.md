@@ -16,7 +16,7 @@ After covering a specified distance, there is a smooth transition to different m
 * Arctic
 
 ## Running the Game:
-To run the game, download the appropriate release and execute the .exe file. By default, the game is controlled using the mouse, but there is also an option to run the game controlled by a microcontroller, provided the appropriate program is uploaded [revelant STM32L476RG rotation transmitting repository](). To enable the game to use the microcontroller, change the first line of the config.txt file to "on".
+To run the game, download the appropriate release and execute the .exe file. By default, the game is controlled using the mouse, but there is also an option to run the game controlled by a microcontroller, provided the appropriate program is uploaded [revelant STM32L476RG rotation transmitting repository](https://github.com/Triadziuch/Scigalka-STM32). To enable the game to use the microcontroller, change the first line of the config.txt file to "on".
 
 ## Special Thanks
 Special thanks to [GrafxKid](https://grafxkid.carrd.co/), whose graphics were utilized in the project.
